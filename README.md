@@ -31,6 +31,8 @@ This branch contains a proof-of-concept modernization of python.org using **Tail
 
 ![Community](screenshot-community.png)
 
+Screenshots cap'd with `uvx --with playwright python capture_screenshots.py`
+
 ### What's Changed
 
 - Added Tailwind CSS via CDN
