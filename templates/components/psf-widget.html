@@ -1,6 +1,25 @@
-                <div class="psf-widget">
+{% load boxes %}
 
-                    <div class="python-logo"></div>
-                    {% load boxes %}
-                    {% box 'widget-about-psf' %}
+<section class="py-16 bg-base-200">
+    <div class="container mx-auto px-4">
+        <div class="card bg-base-100 shadow-xl max-w-4xl mx-auto">
+            <div class="card-body items-center text-center">
+                <div class="w-20 h-20 mb-4">
+                    <svg viewBox="0 0 110 110" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M54.5 0C24.4 0 26 13 26 13l0.03 13.5h29v4H17.5S0 27.5 0 55s15.3 26.5 15.3 26.5h9.2V67.8s-0.5-15.3 15-15.3h25.8s14.5 0.2 14.5-14V15.2S82.2 0 54.5 0zM39.8 8.8c2.7 0 4.8 2.2 4.8 4.8s-2.2 4.8-4.8 4.8-4.8-2.2-4.8-4.8 2.2-4.8 4.8-4.8z" fill="#FFD43B"/>
+                        <path d="M55.5 110c30.1 0 28.5-13 28.5-13l-0.03-13.5h-29v-4h37.5s17.5 3 17.5-24.5-15.3-26.5-15.3-26.5h-9.2v13.7s0.5 15.3-15 15.3H44.7s-14.5-0.2-14.5 14v23.3S27.8 110 55.5 110zM70.2 101.2c-2.7 0-4.8-2.2-4.8-4.8s2.2-4.8 4.8-4.8 4.8 2.2 4.8 4.8-2.2 4.8-4.8 4.8z" fill="#306998"/>
+                    </svg>
                 </div>
+                <h2 class="card-title text-2xl mb-2">Python Software Foundation</h2>
+                <p class="text-gray-600 max-w-2xl mb-6">
+                    The mission of the Python Software Foundation is to promote, protect, and advance the Python programming language, and to support and facilitate the growth of a diverse and international community of Python programmers.
+                </p>
+                <div class="flex flex-wrap gap-3 justify-center">
+                    <a href="/psf/" class="btn btn-primary">Learn More</a>
+                    <a href="https://donate.python.org/" class="btn bg-python-yellow text-python-dark border-none hover:bg-yellow-400">Donate</a>
+                    <a href="/psf/membership/" class="btn btn-outline">Become a Member</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,33 +1,39 @@
 {# This is used to show success stories on frontpage. #}
-
 {% load successstories %}
 
-                        <div class="shrubbery">
-                            {% get_featured_story as story %}
+{% get_featured_story as story %}
 
-                            <h2 class="widget-title"><span aria-hidden="true" class="icon-success-stories"></span>Success Stories</h2>
-                            <p class="give-me-more"><a href="{% url 'success_story_list' %}" title="More Success Stories">More</a></p>
+{% if story %}
+<div class="carousel carousel-center max-w-full p-4 space-x-4 bg-base-200 rounded-box">
+    <div class="carousel-item">
+        <div class="card w-80 bg-base-100 shadow-xl">
+            <div class="card-body">
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="avatar placeholder">
+                        <div class="bg-python-blue text-white rounded-full w-12">
+                            <span class="text-xl">{{ story.company|slice:":1"|upper }}</span>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="font-bold">{{ story.company }}</h3>
+                        <p class="text-sm text-gray-500">Success Story</p>
+                    </div>
+                </div>
+                <blockquote class="text-gray-600 italic">"{{ story.pull_quote|truncatewords:30 }}"</blockquote>
+                <div class="card-actions justify-end mt-4">
+                    <a href="{{ story.get_absolute_url }}" class="btn btn-sm btn-primary">Read More</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-                            {% if story %}
-                            <div class="success-story-item" id="success-story-{{ story.pk }}">
-
-                            <blockquote>
-                                <a href="{{ story.get_absolute_url }}">{{ story.pull_quote }}</a>
-                            </blockquote>
-
-                            <table cellpadding="0" cellspacing="0" border="0" width="100%" class="quote-from">
-                                <tbody>
-                                    <tr>
-                                        {% comment %}
-                                        This image tag should be for a Company logo, if they have supplied one
-                                        Currently this path is for a static logo sample, which no longer exists
-                                        <td><a href="{{ story.get_absolute_url }}"><img src="{{ STATIC_URL }}img/ILM_logo.png"></a></td>
-                                        {% endcomment %}
-                                        <td><p><a href="{{ story.get_absolute_url }}">{{ story.name }}</a> <em>by {{ story.author }}</em></p></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            </div>
-                            {% endif %}
-
-                        </div><!-- end .shrubbery -->
+<div class="text-center mt-6">
+    <a href="{% url 'success_story_list' %}" class="btn btn-outline">View All Success Stories</a>
+</div>
+{% else %}
+<div class="text-center py-8">
+    <p class="text-gray-500 mb-4">Discover how companies around the world are using Python.</p>
+    <a href="{% url 'success_story_list' %}" class="btn btn-outline">Browse Success Stories</a>
+</div>
+{% endif %}

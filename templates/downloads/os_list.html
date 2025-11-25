@@ -5,11 +5,15 @@
 
 {% block body_attributes %}class="python download"{% endblock %}
 
-
 {% block breadcrumbs %}
-{% sitetree_breadcrumbs from "main" %}
+<nav class="text-sm breadcrumbs py-4">
+    <ul class="flex gap-2 text-gray-600">
+        <li><a href="/" class="hover:text-python-blue">Home</a></li>
+        <li><a href="/downloads/" class="hover:text-python-blue">Downloads</a></li>
+        <li class="text-gray-900">{{ os.name }}</li>
+    </ul>
+</nav>
 {% endblock breadcrumbs %}
-
 
 {% block page_title %}
 {% if os.slug == 'source' %}Python Source Releases{% else %}Python Releases for {{ os.name }}{% endif %} | {{ SITE_INFO.site_name }}
@@ -17,83 +21,146 @@
 
 {% block og_title %}Python{% if os.slug == 'source' %} Source{% endif %} Releases for {{ os.name }}{% endblock %}
 
-
 {% block content %}
-    <article class="text">
-        <header class="article-header">
-            {% if os.slug == 'source' %}
-            <h1 class="page-title">Python Source Releases</h1>
-            {% else %}
-            <h1 class="page-title">Python Releases for {{ os.name }}</h1>
-            {% endif %}
-        </header>
-
-        <ul>
-            {% if os.slug == 'windows' and latest_pymanager %}
-            <li><a href="{{ latest_pymanager.get_absolute_url }}">Latest Python install manager - {{ latest_pymanager.name }}</a></li>
-            {% endif %}
-
-            <li><a href="{{ latest_python3.get_absolute_url }}">Latest Python 3 Release - {{ latest_python3.name }}</a></li>
-        </ul>
-
-        {% if os.slug == 'android' %}
-        <p>Rather than using these packages directly, in most cases you should use one of the tools recommended in the <a href="https://docs.python.org/3/using/android.html">Python documentation</a>.</p>
+<div class="py-8">
+    <!-- Page Header -->
+    <div class="mb-8">
+        {% if os.slug == 'source' %}
+        <h1 class="text-4xl font-bold text-gray-900 mb-4">Python Source Releases</h1>
+        {% else %}
+        <h1 class="text-4xl font-bold text-gray-900 mb-4">Python Releases for {{ os.name }}</h1>
         {% endif %}
 
-        <div class="col-row two-col">
-            <div class="column">
-                <h2>Stable Releases</h2>
-                <ul>
-                    {% for r in releases %}
-                    {% if r.files.all %}
-                    <li>
-                        <a href="{{ r.get_absolute_url }}">{{ r.name }} - {{ r.release_date|date }}</a>
-                        {% if os.slug == 'windows' %}
-                            {% if latest_pymanager and r.is_version_at_least_3_14 %}
-                                {% if latest_pymanager %}
-                                <p>Download using the <a href="{{ latest_pymanager.get_absolute_url }}">Python install manager</a>.</p>
-                                {% else %}
-                                <p>Download using the <a href="https://docs.python.org/using/windows.html">Python install manager</a>.</p>
-                                {% endif %}
-                            {% elif r.is_version_at_least_3_9 %}
-                            <p><strong>Note that {{ r.name }} <em>cannot</em> be used on Windows 7 or earlier.</strong></p>
-                            {% elif r.is_version_at_least_3_5 %}
-                            <p><strong>Note that {{ r.name }} <em>cannot</em> be used on Windows XP or earlier.</strong></p>
-                            {% endif %}
-                        {% endif %}
-                        <ul>
-                            {% for f in r.files.all|sort_windows %}
-                                <li>Download <a href="{{ f.url }}">{{ f.name }}</a></li>
-                            {% empty %}
-                                <li>No files for this release.</li>
-                            {% endfor %}
-                        </ul>
-                    </li>
-                    {% endif %}
-                    {% endfor %}
-                </ul>
+        <!-- Quick Download Card -->
+        <div class="card bg-python-blue text-white shadow-xl mb-6">
+            <div class="card-body">
+                <h2 class="card-title text-2xl">Latest Release</h2>
+                {% if os.slug == 'windows' and latest_pymanager %}
+                <p class="opacity-90">Python Install Manager - {{ latest_pymanager.name }}</p>
+                <a href="{{ latest_pymanager.get_absolute_url }}" class="btn bg-python-yellow text-python-dark border-none hover:bg-yellow-400 mt-2">
+                    Download Install Manager
+                </a>
+                {% endif %}
+                <p class="opacity-90">Python 3 - {{ latest_python3.name }}</p>
+                <a href="{{ latest_python3.get_absolute_url }}" class="btn bg-python-yellow text-python-dark border-none hover:bg-yellow-400 mt-2">
+                    Download {{ latest_python3.name }}
+                </a>
             </div>
-            {% if pre_releases %}
-            <div class="column">
-                <h2>Pre-releases</h2>
-                <ul>
-                    {% for r in pre_releases %}
-                    {% if r.files.all %}
-                    <li>
-                        <a href="{{ r.get_absolute_url }}">{{ r.name }} - {{ r.release_date|date }}</a>
-                        <ul>
-                            {% for f in r.files.all|sort_windows %}
-                                <li>Download <a href="{{ f.url }}">{{ f.name }}</a></li>
-                            {% empty %}
-                                <li>No files for this release.</li>
-                            {% endfor %}
-                        </ul>
-                    </li>
-                    {% endif %}
-                    {% endfor %}
-                </ul>
-            </div>
-            {% endif %}
         </div>
-    </article>
+
+        {% if os.slug == 'android' %}
+        <div class="alert alert-info mb-6">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <span>Rather than using these packages directly, in most cases you should use one of the tools recommended in the <a href="https://docs.python.org/3/using/android.html" class="link">Python documentation</a>.</span>
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- Releases Table -->
+    <div class="grid grid-cols-1 {% if pre_releases %}lg:grid-cols-2{% endif %} gap-8">
+        <!-- Stable Releases -->
+        <div>
+            <h2 class="text-2xl font-bold mb-4 text-gray-900">Stable Releases</h2>
+            <div class="overflow-x-auto">
+                <table class="table table-zebra w-full">
+                    <thead>
+                        <tr class="bg-base-200">
+                            <th class="text-left">Version</th>
+                            <th class="text-left">Release Date</th>
+                            <th class="text-left">Downloads</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for r in releases %}
+                        {% if r.files.all %}
+                        <tr class="hover">
+                            <td>
+                                <a href="{{ r.get_absolute_url }}" class="font-semibold text-python-blue hover:underline">{{ r.name }}</a>
+                                {% if os.slug == 'windows' %}
+                                    {% if latest_pymanager and r.is_version_at_least_3_14 %}
+                                    <span class="badge badge-info badge-sm ml-2">Use Install Manager</span>
+                                    {% elif r.is_version_at_least_3_9 %}
+                                    <span class="badge badge-warning badge-sm ml-2">Win 8+</span>
+                                    {% elif r.is_version_at_least_3_5 %}
+                                    <span class="badge badge-warning badge-sm ml-2">Win Vista+</span>
+                                    {% endif %}
+                                {% endif %}
+                            </td>
+                            <td class="text-gray-600">{{ r.release_date|date }}</td>
+                            <td>
+                                <div class="dropdown dropdown-end">
+                                    <label tabindex="0" class="btn btn-sm btn-outline btn-primary">
+                                        Files
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                                        </svg>
+                                    </label>
+                                    <ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow-lg bg-base-100 rounded-box w-64">
+                                        {% for f in r.files.all|sort_windows %}
+                                        <li><a href="{{ f.url }}" class="text-sm">{{ f.name }}</a></li>
+                                        {% empty %}
+                                        <li><span class="text-sm text-gray-500">No files available</span></li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endif %}
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        {% if pre_releases %}
+        <!-- Pre-releases -->
+        <div>
+            <h2 class="text-2xl font-bold mb-4 text-gray-900">Pre-releases</h2>
+            <div class="overflow-x-auto">
+                <table class="table table-zebra w-full">
+                    <thead>
+                        <tr class="bg-base-200">
+                            <th class="text-left">Version</th>
+                            <th class="text-left">Release Date</th>
+                            <th class="text-left">Downloads</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for r in pre_releases %}
+                        {% if r.files.all %}
+                        <tr class="hover">
+                            <td>
+                                <a href="{{ r.get_absolute_url }}" class="font-semibold text-python-blue hover:underline">{{ r.name }}</a>
+                                <span class="badge badge-secondary badge-sm ml-2">Pre-release</span>
+                            </td>
+                            <td class="text-gray-600">{{ r.release_date|date }}</td>
+                            <td>
+                                <div class="dropdown dropdown-end">
+                                    <label tabindex="0" class="btn btn-sm btn-outline btn-primary">
+                                        Files
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                                        </svg>
+                                    </label>
+                                    <ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow-lg bg-base-100 rounded-box w-64">
+                                        {% for f in r.files.all|sort_windows %}
+                                        <li><a href="{{ f.url }}" class="text-sm">{{ f.name }}</a></li>
+                                        {% empty %}
+                                        <li><span class="text-sm text-gray-500">No files available</span></li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endif %}
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
 {% endblock content %}

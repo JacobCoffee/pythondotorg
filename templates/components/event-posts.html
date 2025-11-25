@@ -1,15 +1,28 @@
 {% load events cms %}
-                        <div class="shrubbery">
-                        
-                            <h2 class="widget-title"><span aria-hidden="true" class="icon-calendar"></span>Upcoming Events</h2>
-                            <p class="give-me-more"><a href="{% url 'events:calendar_list' %}" title="More Events">More</a></p>
-                            
-                            <ul class="menu">
-                                {% get_events_upcoming limit=5 as events %}
-                                {% for event in events %}
-                                {% with event.next_time as next_time %}
-                                <li>{% iso_time_tag next_time.dt_start %} <a href="{{ event.get_absolute_url }}">{{ event.title|striptags }}</a></li>
-                                {% endwith %}
-                                {% endfor %}
-                            </ul>
-                        </div>
+{% get_events_upcoming limit=5 as events %}
+{% for event in events %}
+{% with event.next_time as next_time %}
+<div class="card bg-base-100 shadow hover:shadow-lg transition-shadow">
+    <div class="card-body p-4 flex-row gap-4">
+        <div class="bg-python-blue text-white rounded-lg p-3 text-center min-w-[60px]">
+            <div class="text-2xl font-bold">{{ next_time.dt_start|date:"j" }}</div>
+            <div class="text-xs uppercase">{{ next_time.dt_start|date:"M" }}</div>
+        </div>
+        <div>
+            <h3 class="font-semibold hover:text-python-blue cursor-pointer">
+                <a href="{{ event.get_absolute_url }}">{{ event.title|striptags }}</a>
+            </h3>
+            {% if event.venue.city %}
+            <p class="text-sm text-gray-500">{{ event.venue.city }}{% if event.venue.country %}, {{ event.venue.country }}{% endif %}</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endwith %}
+{% empty %}
+<div class="card bg-base-100 shadow">
+    <div class="card-body p-4">
+        <p class="text-gray-500">No upcoming events at this time.</p>
+    </div>
+</div>
+{% endfor %}

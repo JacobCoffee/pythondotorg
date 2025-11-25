@@ -5,86 +5,344 @@
 {% block body_attributes %}class="python home" id="homepage"{% endblock %}
 
 {% block header_content %}
-        <div id="dive-into-python" class="flex-slideshow slideshow">
-
-            <ul class="launch-shell menu" id="launch-shell">
-                <li>
-                    <a class="button prompt" id="start-shell" data-shell-container="#dive-into-python" href="/shell/">&gt;_
-                        <span class="message">Launch Interactive Shell</span>
+    <!-- Hero Section -->
+    <section class="hero min-h-[70vh] python-gradient">
+        <div class="hero-content text-center text-white py-20">
+            <div class="max-w-4xl">
+                <h1 class="text-6xl md:text-8xl lg:text-9xl font-bold mb-6">
+                    Python
+                </h1>
+                <p class="text-xl md:text-2xl mb-8 opacity-90">
+                    A programming language that lets you work quickly and integrate systems more effectively.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <a href="/downloads/" class="btn btn-lg bg-python-yellow text-python-dark border-none hover:bg-yellow-400 shadow-lg">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                        </svg>
+                        Download Python
                     </a>
-                </li>
-            </ul>
-
-            <ul class="slides menu">
-                {% for sample in code_samples %}
-                <li>
-                    <div class="slide-code">{{ sample.code }}</div>
-                    <div class="slide-copy">{{ sample.copy }}</div>
-                </li>
-                {% endfor %}
-            </ul>
+                    <a href="/about/gettingstarted/" class="btn btn-lg btn-outline border-white text-white hover:bg-white hover:text-python-blue">
+                        Get Started
+                    </a>
+                </div>
+                <div class="mt-6 text-sm opacity-75">
+                    <a href="/downloads/" class="link link-hover">All releases</a> |
+                    <a href="/downloads/release/" class="link link-hover">Release notes</a> |
+                    <a href="/doc/" class="link link-hover">Documentation</a>
+                </div>
+            </div>
         </div>
+    </section>
 
+    <!-- Quick Links Bar -->
+    <section class="bg-base-200 py-4 border-b">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-wrap justify-center gap-2">
+                <a href="/about/apps/#web-and-internet-development" class="badge badge-lg badge-outline hover:badge-primary cursor-pointer">Web Development</a>
+                <a href="/about/apps/#scientific-and-numeric" class="badge badge-lg badge-outline hover:badge-primary cursor-pointer">Data Science</a>
+                <a href="/about/apps/#scientific-and-numeric" class="badge badge-lg badge-outline hover:badge-primary cursor-pointer">Machine Learning</a>
+                <a href="/about/apps/#desktop-guis" class="badge badge-lg badge-outline hover:badge-primary cursor-pointer">Desktop GUIs</a>
+                <a href="/about/apps/#software-development" class="badge badge-lg badge-outline hover:badge-primary cursor-pointer">Software Development</a>
+                <a href="/about/apps/#education" class="badge badge-lg badge-outline hover:badge-primary cursor-pointer">Education</a>
+            </div>
+        </div>
+    </section>
 {% endblock header_content %}
 
-{% block intro_copy %}
-        <div class="introduction">
-            {% box 'homepage-introduction' %}
-        </div>
-{% endblock %}
-
-
-
 {% block content %}
+    {% render_active_banner %}
 
-                {% render_active_banner %}
+    <!-- Features Section -->
+    <section class="py-20 bg-base-100">
+        <div class="container mx-auto px-4">
+            <h2 class="text-4xl font-bold text-center mb-4">Why Python?</h2>
+            <p class="text-center text-gray-600 mb-12 max-w-2xl mx-auto">
+                Python is powerful, fast, plays well with others, runs everywhere, is friendly & easy to learn, and is open.
+            </p>
 
-                <div class="row">
-
-                    <div class="small-widget get-started-widget">
-                        {% box 'homepage-get-started' %}
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Feature Card 1 -->
+                <div class="card bg-base-100 shadow-xl hover:shadow-2xl transition-shadow border">
+                    <div class="card-body">
+                        <div class="w-14 h-14 rounded-lg bg-python-blue/10 flex items-center justify-center mb-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-python-blue" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                            </svg>
+                        </div>
+                        <h3 class="card-title">Easy to Learn</h3>
+                        <p class="text-gray-600">Python's simple, easy-to-learn syntax emphasizes readability and reduces the cost of program maintenance.</p>
                     </div>
-
-                    <div class="small-widget download-widget">
-                        {% box 'homepage-downloads' %}
-                    </div>
-
-                    <div class="small-widget documentation-widget">
-                        {% box 'homepage-documentation' %}
-                    </div>
-
-                    <div class="small-widget jobs-widget last">
-                        {% box 'homepage-jobs' %}
-                    </div>
-
                 </div>
 
-                <div class="list-widgets row">
+                <!-- Feature Card 2 -->
+                <div class="card bg-base-100 shadow-xl hover:shadow-2xl transition-shadow border">
+                    <div class="card-body">
+                        <div class="w-14 h-14 rounded-lg bg-python-yellow/20 flex items-center justify-center mb-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-yellow-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                            </svg>
+                        </div>
+                        <h3 class="card-title">Rich Ecosystem</h3>
+                        <p class="text-gray-600">Access 500,000+ packages on PyPI covering web frameworks, data science, machine learning, and more.</p>
+                    </div>
+                </div>
 
-                    <div class="medium-widget blog-widget">
+                <!-- Feature Card 3 -->
+                <div class="card bg-base-100 shadow-xl hover:shadow-2xl transition-shadow border">
+                    <div class="card-body">
+                        <div class="w-14 h-14 rounded-lg bg-green-100 flex items-center justify-center mb-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                            </svg>
+                        </div>
+                        <h3 class="card-title">Vibrant Community</h3>
+                        <p class="text-gray-600">Join millions of developers worldwide. Get help, contribute, and be part of the open source movement.</p>
+                    </div>
+                </div>
+
+                <!-- Feature Card 4 -->
+                <div class="card bg-base-100 shadow-xl hover:shadow-2xl transition-shadow border">
+                    <div class="card-body">
+                        <div class="w-14 h-14 rounded-lg bg-purple-100 flex items-center justify-center mb-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                            </svg>
+                        </div>
+                        <h3 class="card-title">Cross-Platform</h3>
+                        <p class="text-gray-600">Write once, run anywhere. Python works on Windows, macOS, Linux, and many other platforms.</p>
+                    </div>
+                </div>
+
+                <!-- Feature Card 5 -->
+                <div class="card bg-base-100 shadow-xl hover:shadow-2xl transition-shadow border">
+                    <div class="card-body">
+                        <div class="w-14 h-14 rounded-lg bg-red-100 flex items-center justify-center mb-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                            </svg>
+                        </div>
+                        <h3 class="card-title">Enterprise Ready</h3>
+                        <p class="text-gray-600">Used by Google, Netflix, NASA, and countless enterprises. Battle-tested and production-ready.</p>
+                    </div>
+                </div>
+
+                <!-- Feature Card 6 -->
+                <div class="card bg-base-100 shadow-xl hover:shadow-2xl transition-shadow border">
+                    <div class="card-body">
+                        <div class="w-14 h-14 rounded-lg bg-blue-100 flex items-center justify-center mb-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+                            </svg>
+                        </div>
+                        <h3 class="card-title">Open Source</h3>
+                        <p class="text-gray-600">Free to use, distribute, and modify. Python's development is guided by a community-driven process.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Code Example Section -->
+    <section class="py-20 bg-base-200">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div>
+                    <h2 class="text-4xl font-bold mb-4">Intuitive & Readable</h2>
+                    <p class="text-gray-600 mb-6">
+                        Python code reads like English. Its clean syntax means you spend less time wrestling with the language and more time solving problems.
+                    </p>
+                    <div class="space-y-4">
+                        <div class="flex items-start gap-3">
+                            <div class="badge badge-primary badge-lg">1</div>
+                            <div>
+                                <h4 class="font-semibold">No semicolons or braces</h4>
+                                <p class="text-sm text-gray-600">Indentation defines code blocks naturally</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <div class="badge badge-primary badge-lg">2</div>
+                            <div>
+                                <h4 class="font-semibold">Dynamic typing</h4>
+                                <p class="text-sm text-gray-600">Write less boilerplate, focus on logic</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <div class="badge badge-primary badge-lg">3</div>
+                            <div>
+                                <h4 class="font-semibold">Batteries included</h4>
+                                <p class="text-sm text-gray-600">Rich standard library for common tasks</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mockup-code bg-python-dark text-white shadow-2xl">
+                    <pre data-prefix=">>>" class="text-python-yellow"><code>def greet(name):</code></pre>
+                    <pre data-prefix="..."><code>    return f"Hello, {name}!"</code></pre>
+                    <pre data-prefix=">>>"><code></code></pre>
+                    <pre data-prefix=">>>" class="text-python-yellow"><code>names = ["Alice", "Bob", "Charlie"]</code></pre>
+                    <pre data-prefix=">>>" class="text-python-yellow"><code>for name in names:</code></pre>
+                    <pre data-prefix="..."><code>    print(greet(name))</code></pre>
+                    <pre data-prefix=""><code></code></pre>
+                    <pre data-prefix="" class="text-green-400"><code>Hello, Alice!</code></pre>
+                    <pre data-prefix="" class="text-green-400"><code>Hello, Bob!</code></pre>
+                    <pre data-prefix="" class="text-green-400"><code>Hello, Charlie!</code></pre>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Downloads Section -->
+    <section class="py-20 bg-base-100">
+        <div class="container mx-auto px-4">
+            <h2 class="text-4xl font-bold text-center mb-4">Download Python</h2>
+            <p class="text-center text-gray-600 mb-12 max-w-2xl mx-auto">
+                Get started with Python today. Available for all major operating systems.
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+                <!-- Windows -->
+                <div class="card bg-base-100 shadow-xl border hover:border-python-blue transition-colors">
+                    <div class="card-body items-center text-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-blue-500 mb-4" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M0 3.449L9.75 2.1v9.451H0m10.949-9.602L24 0v11.4H10.949M0 12.6h9.75v9.451L0 20.699M10.949 12.6H24V24l-12.9-1.801"/>
+                        </svg>
+                        <h3 class="card-title">Windows</h3>
+                        <p class="text-sm text-gray-600 mb-4">Windows 10/11 (64-bit)</p>
+                        <a href="/downloads/windows/" class="btn btn-primary btn-block">Download</a>
+                    </div>
+                </div>
+
+                <!-- macOS -->
+                <div class="card bg-base-100 shadow-xl border hover:border-python-blue transition-colors">
+                    <div class="card-body items-center text-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-gray-700 mb-4" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
+                        </svg>
+                        <h3 class="card-title">macOS</h3>
+                        <p class="text-sm text-gray-600 mb-4">macOS 10.9+ (Universal)</p>
+                        <a href="/downloads/macos/" class="btn btn-primary btn-block">Download</a>
+                    </div>
+                </div>
+
+                <!-- Linux -->
+                <div class="card bg-base-100 shadow-xl border hover:border-python-blue transition-colors">
+                    <div class="card-body items-center text-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-yellow-500 mb-4" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12.504 0c-.155 0-.315.008-.48.021-4.226.333-3.105 4.807-3.17 6.298-.076 1.092-.3 1.953-1.05 3.02-.885 1.051-2.127 2.75-2.716 4.521-.278.832-.41 1.684-.287 2.489a.424.424 0 00-.11.135c-.26.268-.45.6-.663.839-.199.199-.485.267-.797.4-.313.136-.658.269-.864.68-.09.189-.136.394-.132.602 0 .199.027.4.055.536.058.399.116.728.04.97-.249.68-.28 1.145-.106 1.484.174.334.535.47.94.601.81.2 1.91.135 2.774.6.926.466 1.866.67 2.616.47.526-.116.97-.464 1.208-.946.587-.003 1.23-.269 2.26-.334.699-.058 1.574.267 2.577.2.025.134.063.198.114.333l.003.003c.391.778 1.113 1.132 1.884 1.071.771-.06 1.592-.536 2.257-1.306.631-.765 1.683-1.084 2.378-1.503.348-.199.629-.469.649-.853.023-.4-.2-.811-.714-1.376v-.097l-.003-.003c-.17-.2-.25-.535-.338-.926-.085-.401-.182-.786-.492-1.046h-.003c-.059-.054-.123-.067-.188-.135a.357.357 0 00-.19-.064c.431-1.278.264-2.55-.173-3.694-.533-1.41-1.465-2.638-2.175-3.483-.796-1.005-1.576-1.957-1.56-3.368.026-2.152.236-6.133-3.544-6.139zm.529 3.405h.013c.213 0 .396.062.584.198.19.135.33.332.438.533.105.259.158.459.166.724 0-.02.006-.04.006-.06v.105a.086.086 0 01-.004-.021l-.004-.024a1.807 1.807 0 01-.15.706.953.953 0 01-.213.335.71.71 0 00-.088-.042c-.104-.045-.198-.064-.284-.133a1.312 1.312 0 00-.22-.066c.05-.06.146-.133.183-.198.053-.128.082-.264.088-.402v-.02a1.21 1.21 0 00-.061-.4c-.045-.134-.101-.2-.183-.333-.084-.066-.167-.132-.267-.132h-.016c-.093 0-.176.03-.262.132a.8.8 0 00-.205.334 1.18 1.18 0 00-.09.468v.02c.002.134.017.267.051.399.009.054.027.105.05.154a.27.27 0 01-.09.042c-.037.012-.077.03-.118.049a.94.94 0 01-.202-.332 1.606 1.606 0 01-.146-.468 1.09 1.09 0 010-.2v-.02a1.334 1.334 0 01.394-.934c.186-.135.378-.198.593-.198zm2.335.134c.242 0 .453.132.641.4.135.2.205.468.205.733 0 .331-.064.468-.196.668-.066.134-.132.2-.264.268-.09-.068-.186-.068-.282-.133a1.047 1.047 0 00-.22-.067c.09-.068.203-.135.244-.2.047-.134.087-.267.087-.4 0-.2-.03-.337-.097-.469a.386.386 0 00-.155-.199.217.217 0 00-.131-.032h-.018c-.088 0-.166.032-.235.132a.612.612 0 00-.139.333c-.002.2.013.266.05.4.009.046.026.09.047.134-.03.013-.063.03-.097.05a.291.291 0 01-.118.047.743.743 0 01-.135-.4 1.159 1.159 0 01.017-.468 1.028 1.028 0 01.396-.665c.152-.134.32-.2.506-.2zm-3.55 2.534c.062.067.088.135.15.2a1.612 1.612 0 00.55.333c.08.026.16.046.242.059.062.135.106.267.15.401.088.267.168.469.293.669a.812.812 0 00.147.197c-.103.135-.158.267-.18.468-.023.265.019.533.088.733.064.2.155.333.263.399.106.066.199.066.309 0a.619.619 0 00.25-.267c.053-.134.093-.268.093-.468.003-.2-.029-.401-.078-.535-.053-.2-.106-.332-.185-.465a.904.904 0 01.366-.199 1.103 1.103 0 01.455.067c.026.2.064.4.119.6.053.199.132.333.22.465.084.135.196.2.31.2a.323.323 0 00.269-.133c.071-.133.106-.331.088-.532-.015-.135-.053-.268-.097-.401-.05-.135-.094-.2-.162-.334a1.39 1.39 0 00.32-.2c.135-.132.202-.333.202-.6v-.135a1.417 1.417 0 00-.282-.733c-.176-.2-.405-.333-.651-.4-.25-.066-.504-.066-.765 0-.242.066-.464.2-.614.4a.96.96 0 00-.287.532c-.018.134-.018.267 0 .4-.176 0-.352.066-.501.2-.15.132-.255.331-.323.532a1.366 1.366 0 00-.079.468c0 .2.028.4.106.533-.043-.067-.111-.134-.141-.2-.068-.135-.125-.267-.169-.4-.044-.135-.063-.267-.093-.4a.608.608 0 00-.031-.068c.02-.067.052-.132.063-.2.006-.134.006-.267-.021-.399v-.135c.008-.066.014-.133.024-.2.037-.267.123-.466.243-.6.127-.133.28-.2.456-.2z"/>
+                        </svg>
+                        <h3 class="card-title">Linux</h3>
+                        <p class="text-sm text-gray-600 mb-4">Source tarball & distro packages</p>
+                        <a href="/downloads/source/" class="btn btn-primary btn-block">Download</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center mt-8">
+                <a href="/downloads/" class="link link-primary">View all downloads</a> |
+                <a href="/download/other/" class="link link-primary">Other platforms</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- News & Events -->
+    <section class="py-20 bg-base-200">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                <!-- Latest News -->
+                <div>
+                    <h2 class="text-3xl font-bold mb-6 flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-python-blue" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
+                        </svg>
+                        Latest News
+                    </h2>
+                    <div class="space-y-4">
                         {% include 'components/blog-posts.html' %}
                     </div>
+                    <a href="/blogs/" class="btn btn-outline btn-sm mt-6">View All News</a>
+                </div>
 
-                    <div class="medium-widget event-widget last">
+                <!-- Upcoming Events -->
+                <div>
+                    <h2 class="text-3xl font-bold mb-6 flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-python-yellow" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        </svg>
+                        Upcoming Events
+                    </h2>
+                    <div class="space-y-4">
                         {% include 'components/event-posts.html' %}
                     </div>
-
+                    <a href="/events/" class="btn btn-outline btn-sm mt-6">View All Events</a>
                 </div>
+            </div>
+        </div>
+    </section>
 
-                <div class="row">
+    <!-- Success Stories -->
+    <section class="py-20 bg-base-100">
+        <div class="container mx-auto px-4">
+            <h2 class="text-4xl font-bold text-center mb-4">Who Uses Python?</h2>
+            <p class="text-center text-gray-600 mb-12 max-w-2xl mx-auto">
+                Python is used by industry leaders across every sector. Here's what they're building.
+            </p>
 
-                    <div class="medium-widget success-stories-widget">
-                        {% include 'components/success-story.html' %}
-                    </div>
+            {% include 'components/success-story.html' %}
+        </div>
+    </section>
 
-                    <div class="medium-widget applications-widget last">
-                        <div class="shrubbery">
-                            {% box 'widget-use-python-for' %}
-                        </div><!-- end .shrubbery -->
-                    </div>
+    <!-- Community Section -->
+    <section class="py-20 python-gradient text-white">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="text-4xl font-bold mb-4">Join the Community</h2>
+            <p class="text-xl opacity-90 mb-8 max-w-2xl mx-auto">
+                Python's community is what makes it special. Get involved, contribute, and help shape the future.
+            </p>
 
+            <div class="stats stats-vertical lg:stats-horizontal shadow-lg bg-white/10 backdrop-blur">
+                <div class="stat">
+                    <div class="stat-value text-python-yellow">8.2M+</div>
+                    <div class="stat-desc text-white/80">Active Developers</div>
                 </div>
+                <div class="stat">
+                    <div class="stat-value text-python-yellow">500K+</div>
+                    <div class="stat-desc text-white/80">PyPI Packages</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value text-python-yellow">300+</div>
+                    <div class="stat-desc text-white/80">Annual Events</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value text-python-yellow">35+</div>
+                    <div class="stat-desc text-white/80">Years Strong</div>
+                </div>
+            </div>
 
-                {% include 'components/psf-widget.html' %}
+            <div class="flex flex-wrap justify-center gap-4 mt-10">
+                <a href="/psf/" class="btn btn-lg bg-white text-python-blue hover:bg-gray-100">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                    </svg>
+                    Join the PSF
+                </a>
+                <a href="https://devguide.python.org/" class="btn btn-lg btn-outline border-white text-white hover:bg-white hover:text-python-blue">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+                    </svg>
+                    Contribute
+                </a>
+                <a href="https://discuss.python.org/" class="btn btn-lg btn-outline border-white text-white hover:bg-white hover:text-python-blue">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                    </svg>
+                    Discuss
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- PSF Widget -->
+    {% include 'components/psf-widget.html' %}
 
 {% endblock content %}

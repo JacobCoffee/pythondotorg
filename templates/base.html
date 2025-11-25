@@ -1,17 +1,12 @@
 <!doctype html>
-<!--[if lt IE 7]>   <html class="no-js ie6 lt-ie7 lt-ie8 lt-ie9">   <![endif]-->
-<!--[if IE 7]>      <html class="no-js ie7 lt-ie8 lt-ie9">          <![endif]-->
-<!--[if IE 8]>      <html class="no-js ie8 lt-ie9">                 <![endif]-->
-<!--[if gt IE 8]><!--><html class="no-js" lang="en" dir="ltr">  <!--<![endif]-->
+<html class="no-js" lang="en" dir="ltr" data-theme="light">
 {% load pipeline sitetree %}
 <head>
     <script defer data-domain="python.org" src="https://analytics.python.org/js/script.outbound-links.js"></script>
 
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-
-    <link rel="prefetch" href="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js">
-    <link rel="prefetch" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <meta name="application-name" content="{{ SITE_INFO.site_name }}">
     <meta name="msapplication-tooltip" content="{{ SITE_INFO.site_descript }}">
@@ -19,34 +14,94 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="HandheldFriendly" content="True">
-    <meta name="format-detection" content="telephone=no">
-    <meta http-equiv="cleartype" content="on">
-    <meta http-equiv="imagetoolbar" content="false">{# Kills IE6's images toolbar. Still useful. #}
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
 
-    <script async
-            src="https://media.ethicalads.io/media/client/v1.4.0/ethicalads.min.js"
-            integrity="sha256-U3hKDidudIaxBDEzwGJApJgPEf2mWk6cfMWghrAa6i0= sha384-UcmsCqcNRSLW/dV3Lo1oCi2/VaurXbib6p4HyUEOeIa/4OpsrnucrugAefzVZJfI sha512-q4t1L4xEjGV2R4hzqCa41P8jrgFUS8xTb8rdNv4FGvw7FpydVj/kkxBJHOiaoxHa8olCcx1Slk9K+3sNbsM4ug=="
-            crossorigin="anonymous"
-    ></script>
-    <script src="{{ STATIC_URL }}js/libs/modernizr.js"></script>
+    <!-- DaisyUI CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.4.19/dist/full.min.css" rel="stylesheet" type="text/css" />
 
+    <!-- Custom Tailwind Config with Python Brand Colors -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'python-blue': '#306998',
+                        'python-yellow': '#FFD43B',
+                        'python-dark': '#1e415e',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom gradient for Python brand */
+        .python-gradient {
+            background: linear-gradient(135deg, #306998 0%, #1e415e 100%);
+        }
+        .python-gradient-reverse {
+            background: linear-gradient(135deg, #FFD43B 0%, #FFA500 100%);
+        }
+
+        /* Override legacy CSS for navbar visibility */
+        .navbar .navbar-center {
+            display: none !important;
+        }
+        @media (min-width: 1024px) {
+            .navbar .navbar-center {
+                display: flex !important;
+            }
+        }
+        .navbar .menu a {
+            color: white !important;
+        }
+        .navbar .menu a:hover {
+            background-color: #1e415e !important;
+        }
+
+        /* Fix button text colors */
+        .btn-primary {
+            background-color: #306998 !important;
+            border-color: #306998 !important;
+            color: white !important;
+        }
+        .btn-primary:hover {
+            background-color: #1e415e !important;
+            border-color: #1e415e !important;
+        }
+
+        /* Override legacy article/content styles */
+        .text h1, .text h2, .text h3 {
+            color: inherit;
+        }
+        article.text {
+            max-width: 100%;
+        }
+
+        /* Make tables look better */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table th, table td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        table th {
+            font-weight: 600;
+            background-color: #f9fafb;
+        }
+        table tr:hover {
+            background-color: #f9fafb;
+        }
+    </style>
+
+    <!-- Legacy stylesheets (keeping for compatibility during migration) -->
     {% stylesheet 'style' %}
     {% stylesheet 'mq' %}
     {% stylesheet 'font-awesome' %}
-    {% comment %}
-    {# equivalent to: #}
-    <link rel="stylesheet" href="{{ STATIC_URL }}stylesheets/style.css" title="default">
-    <link rel="stylesheet" href="{{ STATIC_URL }}stylesheets/mq.css" media="not print, braille, embossed, speech, tty">
-    {% endcomment %}
-
-    <!--[if (lte IE 8)&(!IEMobile)]>
-    {% stylesheet 'no-mq' %}
-    {# equivalent to: #}
-    {#<link rel="stylesheet" href="{{ STATIC_URL }}stylesheets/no-mq.css" media="screen">#}
-    <![endif]-->
-    <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
 
     {# Place icon files in the root if possible (let browsers look for them where they expect them to be) #}
     <link rel="icon" type="image/x-icon" href="{{ STATIC_URL }}favicon.ico">
@@ -145,199 +200,170 @@
     {% block head %}{% endblock %}
 </head>
 
-<body {% block body_attributes %}{% endblock %}>
+<body {% block body_attributes %}{% endblock %} class="bg-base-100">
 
-    <div id="touchnav-wrapper">
+    {# Skip to content link for accessibility #}
+    <div class="sr-only">
+        <a href="#content" class="skip-link">Skip to content</a>
+    </div>
 
-        <div id="nojs" class="do-not-print">
-            <p><strong>Notice:</strong> While JavaScript is not essential for this website, your interaction with the content will be limited. Please turn JavaScript on for the full experience. </p>
-        </div>
-
-        <!--[if lte IE 8]>
-        <div id="oldie-warning" class="do-not-print">
-            <p>
-                <strong>Notice:</strong> Your browser is <em>ancient</em>. Please
-                <a href="http://browsehappy.com/">upgrade to a different browser</a> to experience a better web.
-            </p>
-        </div>
-        <![endif]-->
-
-        <!-- Sister Site Links -->
-        <div id="top" class="top-bar do-not-print">
-
-            <nav class="meta-navigation container" role="navigation">
-
-                {# Allow Screen readers (hidden for all others) to skip the navigation and get to the main content #}
-                <div class="skip-link screen-reader-text">
-                    <a href="#content" title="Skip to content">Skip to content</a>
+    <!-- Modern Navbar -->
+    <div class="navbar bg-python-blue text-white sticky top-0 z-50 shadow-lg">
+        <div class="navbar-start">
+            <div class="dropdown">
+                <div tabindex="0" role="button" class="btn btn-ghost lg:hidden">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h8m-8 6h16" />
+                    </svg>
                 </div>
-
-                {# Fallback for browsers that do not display generated content... HTML entity will be the icon instead #}
-                <a id="close-python-network" class="jump-link" href="#python-network" aria-hidden="true">
-                    <span aria-hidden="true" class="icon-arrow-down"><span>&#9660;</span></span> Close
-                </a>
-
-                {% sitetree_menu from "main" include "trunk" template "sitetree/top.html" %}
-
-                <a id="python-network" class="jump-link" href="#top" aria-hidden="true">
-                    <span aria-hidden="true" class="icon-arrow-up"><span>&#9650;</span></span> The Python Network
-                </a>
-
-            </nav>
-
+                <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-python-dark rounded-box w-52">
+                    <li><a href="/downloads/">Downloads</a></li>
+                    <li><a href="/doc/">Documentation</a></li>
+                    <li><a href="/community/">Community</a></li>
+                    <li><a href="/success-stories/">Success Stories</a></li>
+                    <li><a href="/blogs/">News</a></li>
+                    <li><a href="/events/">Events</a></li>
+                </ul>
+            </div>
+            {% block section-logo %}
+            <a href="/" class="btn btn-ghost text-2xl font-bold">
+                <div class="w-10 h-10 mr-2 bg-white rounded-lg p-1 flex items-center justify-center">
+                    <svg class="w-8 h-8" viewBox="0 0 110 110" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M54.5 0C24.4 0 26 13 26 13l0.03 13.5h29v4H17.5S0 27.5 0 55s15.3 26.5 15.3 26.5h9.2V67.8s-0.5-15.3 15-15.3h25.8s14.5 0.2 14.5-14V15.2S82.2 0 54.5 0zM39.8 8.8c2.7 0 4.8 2.2 4.8 4.8s-2.2 4.8-4.8 4.8-4.8-2.2-4.8-4.8 2.2-4.8 4.8-4.8z" fill="#FFD43B"/>
+                        <path d="M55.5 110c30.1 0 28.5-13 28.5-13l-0.03-13.5h-29v-4h37.5s17.5 3 17.5-24.5-15.3-26.5-15.3-26.5h-9.2v13.7s0.5 15.3-15 15.3H44.7s-14.5-0.2-14.5 14v23.3S27.8 110 55.5 110zM70.2 101.2c-2.7 0-4.8-2.2-4.8-4.8s2.2-4.8 4.8-4.8 4.8 2.2 4.8 4.8-2.2 4.8-4.8 4.8z" fill="#306998"/>
+                    </svg>
+                </div>
+                Python
+            </a>
+            {% endblock %}
         </div>
+        <div class="navbar-center hidden lg:flex">
+            <ul class="menu menu-horizontal px-1 text-lg">
+                <li><a href="/downloads/" class="hover:bg-python-dark rounded-lg px-4 py-2">Downloads</a></li>
+                <li><a href="/doc/" class="hover:bg-python-dark rounded-lg px-4 py-2">Documentation</a></li>
+                <li><a href="/community/" class="hover:bg-python-dark rounded-lg px-4 py-2">Community</a></li>
+                <li><a href="/success-stories/" class="hover:bg-python-dark rounded-lg px-4 py-2">Success Stories</a></li>
+                <li><a href="/blogs/" class="hover:bg-python-dark rounded-lg px-4 py-2">News</a></li>
+                <li><a href="/events/" class="hover:bg-python-dark rounded-lg px-4 py-2">Events</a></li>
+            </ul>
+        </div>
+        <div class="navbar-end gap-3">
+            <form action="/search/" method="get" class="form-control hidden md:block">
+                <input type="search" name="q" placeholder="Search" value="{{ request.GET.q }}" class="input input-bordered w-40 bg-python-dark border-python-dark text-white placeholder:text-gray-300" />
+            </form>
+            <a href="https://donate.python.org/" class="btn btn-md bg-python-yellow text-python-dark border-none hover:bg-yellow-400 text-base font-semibold px-6">Donate</a>
+        </div>
+    </div>
 
-        <!-- Header elements -->
-        <header class="main-header" role="banner">
-            <div class="container">
-
-                <h1 class="site-headline">
-                    {% block section-logo %}<a href="/"><img class="python-logo" src="{{ STATIC_URL }}img/python-logo.png" alt="python&trade;"></a>{% endblock %}
-                </h1>
-
-                <div class="options-bar-container do-not-print">
-                    <a href="https://donate.python.org/" class="donate-button">Donate</a>
-                    <div class="options-bar">
-                        {# Its a little ugly, but no space between elements makes the inline-block style work better #}
-                        <a id="site-map-link" class="jump-to-menu" href="#site-map"><span class="menu-icon">&equiv;</span> Menu</a><form class="search-the-site" action="/search/" method="get">
-                            <fieldset title="Search Python.org">
-
-                                <span aria-hidden="true" class="icon-search"></span>
-
-                                <label class="screen-reader-text" for="id-search-field">Search This Site</label>
-                                <input id="id-search-field" name="q" type="search" role="textbox" class="search-field" placeholder="Search" value="{{ request.GET.q }}" tabindex="1">
-
-                                <button type="submit" name="submit" id="submit" class="search-button" title="Submit this Search" tabindex="3">
-                                    GO
-                                </button>
-
-                                {# I heard IE needs this in order to have the form submit by pressing the enter key. True? #}
-                                <!--[if IE]><input type="text" style="display: none;" disabled="disabled" size="1" tabindex="4"><![endif]-->
-
-                            </fieldset>
-                        </form><span class="breaker"></span><div class="adjust-font-size" aria-hidden="true">
-                            <ul class="navigation menu" aria-label="Adjust Text Size on Page">
-                                <li class="tier-1 last" aria-haspopup="true">
-                                    <a href="#" class="action-trigger"><strong><small>A</small> A</strong></a>
-                                    <ul class="subnav menu">
-                                        <li class="tier-2 element-1" role="treeitem"><a class="text-shrink" title="Make Text Smaller" href="javascript:;">Smaller</a></li>
-                                        <li class="tier-2 element-2" role="treeitem"><a class="text-grow" title="Make Text Larger" href="javascript:;">Larger</a></li>
-                                        <li class="tier-2 element-3" role="treeitem"><a class="text-reset" title="Reset any font size changes I have made" href="javascript:;">Reset</a></li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </div><div class="winkwink-nudgenudge">
-                            <ul class="navigation menu" aria-label="Social Media Navigation">
-                                <li class="tier-1 last" aria-haspopup="true">
-                                    <a href="#" class="action-trigger">Socialize</a>
-                                    <ul class="subnav menu">
-                                        <li class="tier-2 element-1" role="treeitem"><a href="https://www.linkedin.com/company/python-software-foundation/"><i aria-hidden="true" class="fa fa-linkedin-square"></i>LinkedIn</a></li>
-                                        <li class="tier-2 element-2" role="treeitem"><a href="https://fosstodon.org/@ThePSF"><span aria-hidden="true" class="icon-mastodon"></span>Mastodon</a></li>
-                                        <li class="tier-2 element-3" role="treeitem"><a href="/community/irc/"><span aria-hidden="true" class="icon-freenode"></span>Chat on IRC</a></li>
-                                        <li class="tier-2 element-4" role="treeitem"><a href="https://twitter.com/ThePSF"><span aria-hidden="true" class="icon-twitter"></span>Twitter</a></li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </div>
-                        <span data-html-include="/authenticated"></span>
-                    </div><!-- end options-bar -->
-                </div>
-
-                <nav id="mainnav" class="{% block main-nav_attributes %}python-navigation{% endblock %} main-navigation do-not-print" role="navigation">
-                    {% block main_navigation %}
-                        {% sitetree_menu from "main" include "python-meta" template "sitetree/submenu.html" %}
-                    {% endblock main_navigation %}
-                </nav>
-
-                <div class="header-banner {% block header-banner_attributes %}{% endblock %}"> <!-- for optional "do-not-print" class -->
-                    {% block header_content %}
-                    {% endblock %}
-                </div>
-
-                {% block intro_copy %}
-                {% endblock %}
-
-             </div><!-- end .container -->
-        </header>
-
-        <div id="content" class="content-wrapper">
-            <!-- Main Content Column -->
-            <div class="container">
-
-                <section class="main-content {% block content_attributes %}{% endblock %}" role="main">
-
-                    {% block breadcrumbs %}
-                    {% endblock breadcrumbs %}
-
-                    {% if messages %}
-                        {% for message in messages %}
-                        <div class="user-feedback{% if message.tags %} level-{{ message.tags }}{% endif %}">
-                            <p{% if message.tags %} role="{{ message.tags }}"{% endif %}>{{ message }}</p>
-                        </div>
-                        {% endfor %}
-                    {% endif %}
-
-                    {% block content %}
-                    {% endblock content %}
-
-                </section>
-
-                {% block left_sidebar %}
-                {% endblock left_sidebar %}
-
-                {% block right_sidebar %}
-                {% endblock right_sidebar %}
-
-
-            </div><!-- end .container -->
-        </div><!-- end #content .content-wrapper -->
-
-        <!-- Footer and social media list -->
-        {% block footer %}
-        <footer id="site-map" class="main-footer" role="contentinfo">
-            <div class="main-footer-links">
-                <div class="container">
-
-                    {% block footer_sitemap %}
-                    <a id="back-to-top-1" class="jump-link" href="#python-network"><span aria-hidden="true" class="icon-arrow-up"><span>&#9650;</span></span> Back to Top</a>
-
-                    {% sitetree_menu from "main" include "python-meta" template "sitetree/footer.html" %}
-
-                    <a id="back-to-top-2" class="jump-link" href="#python-network"><span aria-hidden="true" class="icon-arrow-up"><span>&#9650;</span></span> Back to Top</a>
-                    {% endblock footer_sitemap %}
-
-                </div><!-- end .container -->
-            </div> <!-- end .main-footer-links -->
-
-            <div class="site-base">
-                <div class="container">
-                    {# These need to be hooked up to a URL and page content at some point #}
-                    <ul class="footer-links navigation menu do-not-print" role="tree">
-                        <li class="tier-1 element-1"><a href="/about/help/">Help &amp; <span class="say-no-more">General</span> Contact</a></li>
-                        <li class="tier-1 element-2"><a href="/community/diversity/">Diversity <span class="say-no-more">Initiatives</span></a></li>
-                        <li class="tier-1 element-3"><a href="https://github.com/python/pythondotorg/issues">Submit Website Bug</a></li>
-                        <li class="tier-1 element-4">
-                            <a href="https://status.python.org/">Status <span class="python-status-indicator-default" id="python-status-indicator"></span></a>
-                        </li>
-                    </ul>
-
-                    <div class="copyright">
-                        <p><small>
-                            <span class="pre">Copyright &copy;2001-{% now 'Y' %}.</span>
-                            &nbsp;<span class="pre"><a href="/psf-landing/">Python Software Foundation</a></span>
-                            &nbsp;<span class="pre"><a href="/about/legal/">Legal Statements</a></span>
-                            &nbsp;<span class="pre"><a href="https://policies.python.org/python.org/Privacy-Notice/">Privacy Notice</a></span>
-                            <!--&nbsp;<span class="pre"><a href="/psf/community-infrastructure">Powered by PSF Community Infrastructure</a></span>-->
-                        </small></p>
-                    </div>
-
-                </div><!-- end .container -->
-            </div><!-- end .site-base -->
-
-        </footer>
+    <!-- Header Content Area -->
+    <header role="banner">
+        {% block header_content %}
         {% endblock %}
 
-    </div><!-- end #touchnav-wrapper -->
+        {% block intro_copy %}
+        {% endblock %}
+    </header>
+
+    <div id="content" class="min-h-screen">
+        <!-- Main Content Column -->
+        <main class="container mx-auto px-4" role="main">
+
+            {% block breadcrumbs %}
+            {% endblock breadcrumbs %}
+
+            {% if messages %}
+                {% for message in messages %}
+                <div class="alert {% if message.tags == 'error' %}alert-error{% elif message.tags == 'success' %}alert-success{% elif message.tags == 'warning' %}alert-warning{% else %}alert-info{% endif %} mb-4">
+                    <span>{{ message }}</span>
+                </div>
+                {% endfor %}
+            {% endif %}
+
+            {% block content %}
+            {% endblock content %}
+
+            {% block left_sidebar %}
+            {% endblock left_sidebar %}
+
+            {% block right_sidebar %}
+            {% endblock right_sidebar %}
+
+        </main>
+    </div><!-- end #content -->
+
+    <!-- Footer -->
+    {% block footer %}
+    <footer class="footer p-10 bg-neutral text-neutral-content" role="contentinfo">
+        <nav>
+            <h6 class="footer-title">About</h6>
+            <a href="/about/" class="link link-hover">About Python</a>
+            <a href="/about/apps/" class="link link-hover">Applications</a>
+            <a href="/about/quotes/" class="link link-hover">Quotes</a>
+            <a href="/about/gettingstarted/" class="link link-hover">Getting Started</a>
+            <a href="/about/help/" class="link link-hover">Help</a>
+        </nav>
+        <nav>
+            <h6 class="footer-title">Downloads</h6>
+            <a href="/downloads/" class="link link-hover">All releases</a>
+            <a href="/downloads/source/" class="link link-hover">Source code</a>
+            <a href="/downloads/windows/" class="link link-hover">Windows</a>
+            <a href="/downloads/macos/" class="link link-hover">macOS</a>
+            <a href="/download/other/" class="link link-hover">Other Platforms</a>
+        </nav>
+        <nav>
+            <h6 class="footer-title">Documentation</h6>
+            <a href="/doc/" class="link link-hover">Docs</a>
+            <a href="https://docs.python.org/3/tutorial/" class="link link-hover">Tutorial</a>
+            <a href="https://devguide.python.org/" class="link link-hover">Developer's Guide</a>
+            <a href="/doc/faq/" class="link link-hover">FAQ</a>
+            <a href="https://wiki.python.org/" class="link link-hover">Wiki</a>
+        </nav>
+        <nav>
+            <h6 class="footer-title">Community</h6>
+            <a href="/community/diversity/" class="link link-hover">Diversity</a>
+            <a href="/community/lists/" class="link link-hover">Mailing Lists</a>
+            <a href="/community/irc/" class="link link-hover">IRC</a>
+            <a href="https://discuss.python.org/" class="link link-hover">Forums</a>
+            <a href="/events/" class="link link-hover">Python Conferences</a>
+            <a href="/community/workshops/" class="link link-hover">Workshops</a>
+        </nav>
+    </footer>
+    <footer class="footer px-10 py-4 border-t bg-neutral text-neutral-content border-base-300">
+        <aside class="items-center grid-flow-col">
+            <svg class="w-10 h-10" viewBox="0 0 110 110" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M54.5 0C24.4 0 26 13 26 13l0.03 13.5h29v4H17.5S0 27.5 0 55s15.3 26.5 15.3 26.5h9.2V67.8s-0.5-15.3 15-15.3h25.8s14.5 0.2 14.5-14V15.2S82.2 0 54.5 0zM39.8 8.8c2.7 0 4.8 2.2 4.8 4.8s-2.2 4.8-4.8 4.8-4.8-2.2-4.8-4.8 2.2-4.8 4.8-4.8z" fill="#FFD43B"/>
+                <path d="M55.5 110c30.1 0 28.5-13 28.5-13l-0.03-13.5h-29v-4h37.5s17.5 3 17.5-24.5-15.3-26.5-15.3-26.5h-9.2v13.7s0.5 15.3-15 15.3H44.7s-14.5-0.2-14.5 14v23.3S27.8 110 55.5 110zM70.2 101.2c-2.7 0-4.8-2.2-4.8-4.8s2.2-4.8 4.8-4.8 4.8 2.2 4.8 4.8-2.2 4.8-4.8 4.8z" fill="#306998"/>
+            </svg>
+            <p>Python Software Foundation<br/>Copyright &copy;2001-{% now 'Y' %}. All Rights Reserved.</p>
+        </aside>
+        <nav class="md:place-self-center md:justify-self-end">
+            <div class="grid grid-flow-col gap-4">
+                <a href="https://twitter.com/ThePSF" aria-label="Twitter">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" class="fill-current"><path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"></path></svg>
+                </a>
+                <a href="https://www.youtube.com/user/PythonSoftwareFoundation" aria-label="YouTube">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" class="fill-current"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"></path></svg>
+                </a>
+                <a href="https://github.com/python" aria-label="GitHub">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" class="fill-current"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"></path></svg>
+                </a>
+                <a href="https://fosstodon.org/@ThePSF" aria-label="Mastodon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" class="fill-current"><path d="M23.268 5.313c-.35-2.578-2.617-4.61-5.304-5.004C17.51.242 15.792 0 11.813 0h-.03c-3.98 0-4.835.242-5.288.309C3.882.692 1.496 2.518.917 5.127.64 6.412.61 7.837.661 9.143c.074 1.874.088 3.745.26 5.611.118 1.24.325 2.47.62 3.68.55 2.237 2.777 4.098 4.96 4.857 2.336.792 4.849.923 7.256.38.265-.061.527-.132.786-.213.585-.184 1.27-.39 1.774-.753a.057.057 0 0 0 .023-.043v-1.809a.052.052 0 0 0-.02-.041.053.053 0 0 0-.046-.01 20.282 20.282 0 0 1-4.709.545c-2.73 0-3.463-1.284-3.674-1.818a5.593 5.593 0 0 1-.319-1.433.053.053 0 0 1 .066-.054c1.517.363 3.072.546 4.632.546.376 0 .75 0 1.125-.01 1.57-.044 3.224-.124 4.768-.422.038-.008.077-.015.11-.024 2.435-.464 4.753-1.92 4.989-5.604.008-.145.03-1.52.03-1.67.002-.512.167-3.63-.024-5.545zm-3.748 9.195h-2.561V8.29c0-1.309-.55-1.976-1.67-1.976-1.23 0-1.846.79-1.846 2.35v3.403h-2.546V8.663c0-1.56-.617-2.35-1.848-2.35-1.112 0-1.668.667-1.668 1.976v6.218H4.822V8.102c0-1.31.337-2.35 1.011-3.12.696-.77 1.608-1.164 2.74-1.164 1.311 0 2.302.5 2.962 1.498l.638 1.06.638-1.06c.66-.999 1.65-1.498 2.96-1.498 1.13 0 2.043.395 2.74 1.164.675.77 1.012 1.81 1.012 3.12v6.406z"/></svg>
+                </a>
+            </div>
+        </nav>
+    </footer>
+    <footer class="footer footer-center p-4 bg-base-300 text-base-content">
+        <aside class="flex flex-wrap justify-center gap-4 text-sm">
+            <a href="/about/help/" class="link link-hover">Help & Contact</a>
+            <a href="/community/diversity/" class="link link-hover">Diversity</a>
+            <a href="https://github.com/python/pythondotorg/issues" class="link link-hover">Submit Website Bug</a>
+            <a href="https://status.python.org/" class="link link-hover">Status</a>
+            <a href="/about/legal/" class="link link-hover">Legal Statements</a>
+            <a href="https://policies.python.org/python.org/Privacy-Notice/" class="link link-hover">Privacy Notice</a>
+        </aside>
+    </footer>
+    {% endblock %}
 
     {% block javascript %}
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
@@ -371,6 +397,30 @@
 
     {% block extra_js %}
     {% endblock extra_js %}
+
+    <!-- Theme Toggle Button -->
+    <div class="fixed bottom-4 right-4 z-50">
+        <label class="swap swap-rotate btn btn-circle btn-ghost bg-base-100 shadow-lg">
+            <input type="checkbox" id="theme-toggle" />
+            <svg class="swap-on fill-current w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M5.64,17l-.71.71a1,1,0,0,0,0,1.41,1,1,0,0,0,1.41,0l.71-.71A1,1,0,0,0,5.64,17ZM5,12a1,1,0,0,0-1-1H3a1,1,0,0,0,0,2H4A1,1,0,0,0,5,12Zm7-7a1,1,0,0,0,1-1V3a1,1,0,0,0-2,0V4A1,1,0,0,0,12,5ZM5.64,7.05a1,1,0,0,0,.7.29,1,1,0,0,0,.71-.29,1,1,0,0,0,0-1.41l-.71-.71A1,1,0,0,0,4.93,6.34Zm12,.29a1,1,0,0,0,.7-.29l.71-.71a1,1,0,1,0-1.41-1.41L17,5.64a1,1,0,0,0,0,1.41A1,1,0,0,0,17.66,7.34ZM21,11H20a1,1,0,0,0,0,2h1a1,1,0,0,0,0-2Zm-9,8a1,1,0,0,0-1,1v1a1,1,0,0,0,2,0V20A1,1,0,0,0,12,19ZM18.36,17A1,1,0,0,0,17,18.36l.71.71a1,1,0,0,0,1.41,0,1,1,0,0,0,0-1.41ZM12,6.5A5.5,5.5,0,1,0,17.5,12,5.51,5.51,0,0,0,12,6.5Zm0,9A3.5,3.5,0,1,1,15.5,12,3.5,3.5,0,0,1,12,15.5Z"/></svg>
+            <svg class="swap-off fill-current w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21.64,13a1,1,0,0,0-1.05-.14,8.05,8.05,0,0,1-3.37.73A8.15,8.15,0,0,1,9.08,5.49a8.59,8.59,0,0,1,.25-2A1,1,0,0,0,8,2.36,10.14,10.14,0,1,0,22,14.05,1,1,0,0,0,21.64,13Zm-9.5,6.69A8.14,8.14,0,0,1,7.08,5.22v.27A10.15,10.15,0,0,0,17.22,15.63a9.79,9.79,0,0,0,2.1-.22A8.11,8.11,0,0,1,12.14,19.73Z"/></svg>
+        </label>
+    </div>
+
+    <script>
+        // Theme toggle functionality
+        document.getElementById('theme-toggle').addEventListener('change', function() {
+            document.documentElement.setAttribute('data-theme', this.checked ? 'dark' : 'light');
+            localStorage.setItem('theme', this.checked ? 'dark' : 'light');
+        });
+
+        // Check for saved theme preference
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'dark') {
+            document.documentElement.setAttribute('data-theme', 'dark');
+            document.getElementById('theme-toggle').checked = true;
+        }
+    </script>
 
 </body>
 </html>
