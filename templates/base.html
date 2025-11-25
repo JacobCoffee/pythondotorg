@@ -79,6 +79,15 @@
             max-width: 100%;
         }
 
+        /* Force white text on dark gradient backgrounds */
+        .python-gradient h1, .python-gradient h2, .python-gradient h3,
+        .python-gradient p, .python-gradient span {
+            color: white !important;
+        }
+        .python-gradient .text-white\/90 {
+            color: rgba(255, 255, 255, 0.9) !important;
+        }
+
         /* Make tables look better */
         table {
             width: 100%;
@@ -95,6 +104,216 @@
         }
         table tr:hover {
             background-color: #f9fafb;
+        }
+
+        /* Legacy box content grid layouts - Active Releases table */
+        .list-row-headings {
+            display: grid;
+            grid-template-columns: 120px 140px 120px 120px 120px;
+            gap: 1rem;
+            padding: 1rem 1.5rem;
+            background-color: #306998;
+            border-radius: 0.5rem 0.5rem 0 0;
+            font-weight: 600;
+            color: white !important;
+            width: 100%;
+        }
+        .list-row-headings span {
+            color: white !important;
+        }
+        .list-row-container {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            width: 100%;
+            border: 1px solid #e5e7eb;
+            border-top: none;
+            border-radius: 0 0 0.5rem 0.5rem;
+            overflow: hidden;
+        }
+        .list-row-container li {
+            display: grid;
+            grid-template-columns: 120px 140px 120px 120px 120px;
+            gap: 1rem;
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid #e5e7eb;
+            background-color: white;
+            color: #1f2937;
+        }
+        .list-row-container li:nth-child(odd) {
+            background-color: #f9fafb;
+        }
+        .list-row-container li:last-child {
+            border-bottom: none;
+        }
+        .list-row-container li:hover {
+            background-color: #eef2ff;
+        }
+        .release-version {
+            font-weight: 600;
+            color: #306998;
+        }
+        .release-status {
+            text-transform: capitalize;
+            color: #374151;
+            white-space: nowrap;
+        }
+        .release-start, .release-end {
+            color: #4b5563;
+            white-space: nowrap;
+        }
+        .release-pep a {
+            color: #306998;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .release-pep a:hover {
+            text-decoration: underline;
+        }
+
+        /* Release Schedule & Dev Info - Button Grids */
+        .release-schedule-grid h2,
+        .dev-info-grid h2 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: #1f2937;
+        }
+        .release-schedule-grid ul,
+        .dev-info-grid ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 0.5rem;
+        }
+        .release-schedule-grid ul li,
+        .dev-info-grid ul li {
+            margin: 0;
+        }
+        .release-schedule-grid ul li a,
+        .dev-info-grid ul li a {
+            display: block;
+            padding: 0.5rem 1rem;
+            background: #f3f4f6;
+            border-radius: 0.5rem;
+            text-decoration: none;
+            color: #306998;
+            font-weight: 500;
+            text-align: center;
+            transition: all 0.2s;
+            border: 1px solid #e5e7eb;
+        }
+        .release-schedule-grid ul li a:hover,
+        .dev-info-grid ul li a:hover {
+            background: #306998;
+            color: white;
+            border-color: #306998;
+        }
+
+        /* PGP Section Styling */
+        .pgp-section h2 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin: 1rem 0 0.5rem;
+            color: #374151;
+        }
+        .pgp-section ul {
+            list-style: none;
+            padding-left: 0;
+            margin: 0.5rem 0;
+        }
+        .pgp-section ul li {
+            padding: 0.25rem 0;
+            font-size: 0.875rem;
+        }
+        .pgp-section p {
+            font-size: 0.875rem;
+            color: #4b5563;
+            margin: 0.5rem 0;
+        }
+        .pgp-section code, .pgp-section pre {
+            background: #f3f4f6;
+            padding: 0.5rem;
+            border-radius: 0.25rem;
+            font-size: 0.8rem;
+            display: block;
+            margin: 0.5rem 0;
+        }
+
+        /* Fix button styling for better readability */
+        .btn {
+            font-weight: 600 !important;
+        }
+        .btn-outline {
+            border-width: 2px !important;
+        }
+        .btn-sm {
+            padding: 0.5rem 1rem !important;
+            font-size: 0.875rem !important;
+        }
+
+        /* Ensure good contrast on buttons */
+        .btn-primary {
+            background-color: #306998 !important;
+            border-color: #306998 !important;
+            color: white !important;
+        }
+        .btn-outline.btn-primary {
+            background-color: transparent !important;
+            color: #306998 !important;
+            border-color: #306998 !important;
+        }
+        .btn-outline.btn-primary:hover {
+            background-color: #306998 !important;
+            color: white !important;
+        }
+
+        /* Fix dark background text contrast - be specific to not break buttons */
+        .bg-python-blue, .python-gradient, .bg-python-dark {
+            color: white;
+        }
+        /* Links on dark backgrounds - but not buttons */
+        .bg-python-blue > a:not(.btn), .python-gradient > a:not(.btn), .bg-python-dark > a:not(.btn),
+        .bg-python-blue p a, .python-gradient p a, .bg-python-dark p a {
+            color: #FFD43B;
+        }
+        /* Ensure buttons with explicit backgrounds keep their text color */
+        .btn.bg-white, .btn.bg-base-100 {
+            color: #306998 !important;
+        }
+        .btn.bg-python-yellow {
+            color: #1e415e !important;
+        }
+        .btn-outline.border-white {
+            color: white !important;
+        }
+        .btn-outline.border-white:hover {
+            color: #306998 !important;
+        }
+
+        /* Responsive adjustments for release table */
+        @media (max-width: 768px) {
+            .list-row-headings {
+                display: none;
+            }
+            .list-row-container li {
+                display: flex;
+                flex-direction: column;
+                gap: 0.5rem;
+                padding: 1rem;
+            }
+            .list-row-container li span::before {
+                font-weight: 600;
+                color: #6b7280;
+                margin-right: 0.5rem;
+            }
+            .release-version::before { content: "Version: "; }
+            .release-status::before { content: "Status: "; }
+            .release-start::before { content: "Released: "; }
+            .release-end::before { content: "End of support: "; }
+            .release-pep::before { content: "Schedule: "; }
         }
     </style>
 
@@ -247,11 +466,39 @@
                 <li><a href="/events/" class="hover:bg-python-dark rounded-lg px-4 py-2">Events</a></li>
             </ul>
         </div>
-        <div class="navbar-end gap-3">
-            <form action="/search/" method="get" class="form-control hidden md:block">
-                <input type="search" name="q" placeholder="Search" value="{{ request.GET.q }}" class="input input-bordered w-40 bg-python-dark border-python-dark text-white placeholder:text-gray-300" />
+        <div class="navbar-end gap-2">
+            <!-- Desktop/Tablet Search -->
+            <form action="/search/" method="get" class="form-control hidden md:flex">
+                <div class="join">
+                    <input type="search" name="q" placeholder="Search..." value="{{ request.GET.q }}" class="input input-bordered join-item w-40 lg:w-52 bg-white/10 border-white/30 text-white placeholder:text-gray-300 focus:bg-white/20 focus:border-white/50" />
+                    <button type="submit" class="btn join-item bg-python-yellow text-python-dark border-none hover:bg-yellow-400">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                        </svg>
+                    </button>
+                </div>
             </form>
-            <a href="https://donate.python.org/" class="btn btn-md bg-python-yellow text-python-dark border-none hover:bg-yellow-400 text-base font-semibold px-6">Donate</a>
+            <!-- Mobile Search Button -->
+            <div class="dropdown dropdown-end md:hidden">
+                <label tabindex="0" class="btn btn-circle bg-python-yellow text-python-dark border-none hover:bg-yellow-400">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                    </svg>
+                </label>
+                <div tabindex="0" class="dropdown-content z-[1] mt-3 p-4 shadow-lg bg-base-100 rounded-box w-72">
+                    <form action="/search/" method="get">
+                        <div class="join w-full">
+                            <input type="search" name="q" placeholder="Search Python.org..." value="{{ request.GET.q }}" class="input input-bordered join-item flex-1" />
+                            <button type="submit" class="btn btn-primary join-item">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                                </svg>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <a href="https://donate.python.org/" class="btn btn-md bg-python-yellow text-python-dark border-none hover:bg-yellow-400 text-base font-semibold px-4 lg:px-6">Donate</a>
         </div>
     </div>
 
@@ -266,17 +513,18 @@
 
     <div id="content" class="min-h-screen">
         <!-- Main Content Column -->
-        <main class="container mx-auto px-4" role="main">
-
+        <main role="main">
             {% block breadcrumbs %}
             {% endblock breadcrumbs %}
 
             {% if messages %}
+            <div class="container mx-auto px-4">
                 {% for message in messages %}
                 <div class="alert {% if message.tags == 'error' %}alert-error{% elif message.tags == 'success' %}alert-success{% elif message.tags == 'warning' %}alert-warning{% else %}alert-info{% endif %} mb-4">
                     <span>{{ message }}</span>
                 </div>
                 {% endfor %}
+            </div>
             {% endif %}
 
             {% block content %}
@@ -293,42 +541,42 @@
 
     <!-- Footer -->
     {% block footer %}
-    <footer class="footer p-10 bg-neutral text-neutral-content" role="contentinfo">
+    <footer class="footer p-10 bg-python-dark text-white" role="contentinfo">
         <nav>
-            <h6 class="footer-title">About</h6>
-            <a href="/about/" class="link link-hover">About Python</a>
-            <a href="/about/apps/" class="link link-hover">Applications</a>
-            <a href="/about/quotes/" class="link link-hover">Quotes</a>
-            <a href="/about/gettingstarted/" class="link link-hover">Getting Started</a>
-            <a href="/about/help/" class="link link-hover">Help</a>
+            <h6 class="footer-title text-python-yellow opacity-100">About</h6>
+            <a href="/about/" class="text-gray-300 hover:text-white">About Python</a>
+            <a href="/about/apps/" class="text-gray-300 hover:text-white">Applications</a>
+            <a href="/about/quotes/" class="text-gray-300 hover:text-white">Quotes</a>
+            <a href="/about/gettingstarted/" class="text-gray-300 hover:text-white">Getting Started</a>
+            <a href="/about/help/" class="text-gray-300 hover:text-white">Help</a>
         </nav>
         <nav>
-            <h6 class="footer-title">Downloads</h6>
-            <a href="/downloads/" class="link link-hover">All releases</a>
-            <a href="/downloads/source/" class="link link-hover">Source code</a>
-            <a href="/downloads/windows/" class="link link-hover">Windows</a>
-            <a href="/downloads/macos/" class="link link-hover">macOS</a>
-            <a href="/download/other/" class="link link-hover">Other Platforms</a>
+            <h6 class="footer-title text-python-yellow opacity-100">Downloads</h6>
+            <a href="/downloads/" class="text-gray-300 hover:text-white">All releases</a>
+            <a href="/downloads/source/" class="text-gray-300 hover:text-white">Source code</a>
+            <a href="/downloads/windows/" class="text-gray-300 hover:text-white">Windows</a>
+            <a href="/downloads/macos/" class="text-gray-300 hover:text-white">macOS</a>
+            <a href="/download/other/" class="text-gray-300 hover:text-white">Other Platforms</a>
         </nav>
         <nav>
-            <h6 class="footer-title">Documentation</h6>
-            <a href="/doc/" class="link link-hover">Docs</a>
-            <a href="https://docs.python.org/3/tutorial/" class="link link-hover">Tutorial</a>
-            <a href="https://devguide.python.org/" class="link link-hover">Developer's Guide</a>
-            <a href="/doc/faq/" class="link link-hover">FAQ</a>
-            <a href="https://wiki.python.org/" class="link link-hover">Wiki</a>
+            <h6 class="footer-title text-python-yellow opacity-100">Documentation</h6>
+            <a href="/doc/" class="text-gray-300 hover:text-white">Docs</a>
+            <a href="https://docs.python.org/3/tutorial/" class="text-gray-300 hover:text-white">Tutorial</a>
+            <a href="https://devguide.python.org/" class="text-gray-300 hover:text-white">Developer's Guide</a>
+            <a href="/doc/faq/" class="text-gray-300 hover:text-white">FAQ</a>
+            <a href="https://wiki.python.org/" class="text-gray-300 hover:text-white">Wiki</a>
         </nav>
         <nav>
-            <h6 class="footer-title">Community</h6>
-            <a href="/community/diversity/" class="link link-hover">Diversity</a>
-            <a href="/community/lists/" class="link link-hover">Mailing Lists</a>
-            <a href="/community/irc/" class="link link-hover">IRC</a>
-            <a href="https://discuss.python.org/" class="link link-hover">Forums</a>
-            <a href="/events/" class="link link-hover">Python Conferences</a>
-            <a href="/community/workshops/" class="link link-hover">Workshops</a>
+            <h6 class="footer-title text-python-yellow opacity-100">Community</h6>
+            <a href="/community/diversity/" class="text-gray-300 hover:text-white">Diversity</a>
+            <a href="/community/lists/" class="text-gray-300 hover:text-white">Mailing Lists</a>
+            <a href="/community/irc/" class="text-gray-300 hover:text-white">IRC</a>
+            <a href="https://discuss.python.org/" class="text-gray-300 hover:text-white">Forums</a>
+            <a href="/events/" class="text-gray-300 hover:text-white">Python Conferences</a>
+            <a href="/community/workshops/" class="text-gray-300 hover:text-white">Workshops</a>
         </nav>
     </footer>
-    <footer class="footer px-10 py-4 border-t bg-neutral text-neutral-content border-base-300">
+    <footer class="footer px-10 py-4 border-t bg-python-dark text-white border-python-blue/30">
         <aside class="items-center grid-flow-col">
             <svg class="w-10 h-10" viewBox="0 0 110 110" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M54.5 0C24.4 0 26 13 26 13l0.03 13.5h29v4H17.5S0 27.5 0 55s15.3 26.5 15.3 26.5h9.2V67.8s-0.5-15.3 15-15.3h25.8s14.5 0.2 14.5-14V15.2S82.2 0 54.5 0zM39.8 8.8c2.7 0 4.8 2.2 4.8 4.8s-2.2 4.8-4.8 4.8-4.8-2.2-4.8-4.8 2.2-4.8 4.8-4.8z" fill="#FFD43B"/>
@@ -353,14 +601,14 @@
             </div>
         </nav>
     </footer>
-    <footer class="footer footer-center p-4 bg-base-300 text-base-content">
+    <footer class="footer footer-center p-4 bg-gray-900 text-gray-400">
         <aside class="flex flex-wrap justify-center gap-4 text-sm">
-            <a href="/about/help/" class="link link-hover">Help & Contact</a>
-            <a href="/community/diversity/" class="link link-hover">Diversity</a>
-            <a href="https://github.com/python/pythondotorg/issues" class="link link-hover">Submit Website Bug</a>
-            <a href="https://status.python.org/" class="link link-hover">Status</a>
-            <a href="/about/legal/" class="link link-hover">Legal Statements</a>
-            <a href="https://policies.python.org/python.org/Privacy-Notice/" class="link link-hover">Privacy Notice</a>
+            <a href="/about/help/" class="hover:text-white">Help & Contact</a>
+            <a href="/community/diversity/" class="hover:text-white">Diversity</a>
+            <a href="https://github.com/python/pythondotorg/issues" class="hover:text-white">Submit Website Bug</a>
+            <a href="https://status.python.org/" class="hover:text-white">Status</a>
+            <a href="/about/legal/" class="hover:text-white">Legal Statements</a>
+            <a href="https://policies.python.org/python.org/Privacy-Notice/" class="hover:text-white">Privacy Notice</a>
         </aside>
     </footer>
     {% endblock %}

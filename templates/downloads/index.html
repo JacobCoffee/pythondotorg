@@ -11,9 +11,9 @@
 {% block header_content %}
 <!-- Hero Download Section -->
 <section class="python-gradient py-16">
-    <div class="container mx-auto px-4 text-center text-white">
-        <h1 class="text-4xl md:text-5xl font-bold mb-4">Download Python</h1>
-        <p class="text-xl opacity-90 mb-8 max-w-2xl mx-auto">
+    <div class="container mx-auto px-4 text-center">
+        <h1 class="text-4xl md:text-5xl font-bold mb-4 text-white">Download Python</h1>
+        <p class="text-xl mb-8 max-w-2xl mx-auto text-white/90">
             Get started with Python - the programming language that lets you work quickly and integrate systems more effectively.
         </p>
 
@@ -49,10 +49,10 @@
         <!-- Unknown OS fallback -->
         <div class="download-unknown">
             {% if latest_python3 %}
-            <a href="{{ latest_python3.get_absolute_url }}" class="btn btn-lg bg-python-yellow text-python-dark border-none hover:bg-yellow-400 shadow-lg">
+            <a href="{{ latest_python3.get_absolute_url }}" class="btn btn-lg bg-python-yellow text-python-dark border-none hover:bg-yellow-400 shadow-lg font-semibold">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                </a>
+                </svg>
                 Download {{ latest_python3.name }}
             </a>
             {% endif %}
@@ -100,7 +100,7 @@
 {% endblock header_content %}
 
 {% block content %}
-<div class="py-8">
+<div class="container mx-auto px-4 py-8">
     {% render_active_banner %}
 
     <!-- Active Python Releases -->
@@ -115,41 +115,133 @@
     <!-- All Releases -->
     <section class="mb-12">
         <h2 class="text-3xl font-bold mb-4">Looking for a specific release?</h2>
-        <p class="text-gray-600 mb-6">Python releases by version number:</p>
+        <p class="text-gray-600 mb-6">Python releases by version number (click to expand):</p>
 
-        <div class="overflow-x-auto">
-            <table class="table table-zebra w-full">
-                <thead>
-                    <tr class="bg-base-200">
-                        <th>Release Version</th>
-                        <th>Release Date</th>
-                        <th>Download</th>
-                        <th>More Info</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for r in releases %}
-                    <tr class="hover">
-                        <td>
-                            <a href="{{ r.get_absolute_url }}" class="font-semibold text-python-blue hover:underline">{{ r.name }}</a>
-                        </td>
-                        <td class="text-gray-600">{{ r.release_date|date }}</td>
-                        <td>
-                            <a href="{{ r.get_absolute_url }}" class="btn btn-sm btn-primary">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                                </svg>
-                                Download
-                            </a>
-                        </td>
-                        <td>
-                            <a href="{{ r.release_notes_url }}" class="link link-primary text-sm">Release notes</a>
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+        <!-- Release data for JS grouping -->
+        <div id="releases-data" class="hidden">
+            {% for r in releases %}
+            <div data-name="{{ r.name }}" data-url="{{ r.get_absolute_url }}" data-date="{{ r.release_date|date }}" data-notes="{{ r.release_notes_url }}"></div>
+            {% endfor %}
         </div>
+
+        <!-- Grouped releases will be rendered here -->
+        <div id="releases-container" class="space-y-4"></div>
+
+        <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const dataContainer = document.getElementById('releases-data');
+            const container = document.getElementById('releases-container');
+            const releases = Array.from(dataContainer.querySelectorAll('[data-name]')).map(el => ({
+                name: el.dataset.name,
+                url: el.dataset.url,
+                date: el.dataset.date,
+                notes: el.dataset.notes
+            }));
+
+            // Group by major version (Python 2 vs Python 3)
+            const python3 = releases.filter(r => r.name.startsWith('Python 3'));
+            const python2 = releases.filter(r => r.name.startsWith('Python 2'));
+
+            // Group Python 3 by minor version
+            const python3Groups = {};
+            python3.forEach(r => {
+                const match = r.name.match(/Python 3\.(\d+)/);
+                if (match) {
+                    const minor = '3.' + match[1];
+                    if (!python3Groups[minor]) python3Groups[minor] = [];
+                    python3Groups[minor].push(r);
+                }
+            });
+
+            // Group Python 2 by minor version
+            const python2Groups = {};
+            python2.forEach(r => {
+                const match = r.name.match(/Python 2\.(\d+)/);
+                if (match) {
+                    const minor = '2.' + match[1];
+                    if (!python2Groups[minor]) python2Groups[minor] = [];
+                    python2Groups[minor].push(r);
+                }
+            });
+
+            function createReleaseTable(releases) {
+                return `
+                    <table class="table table-sm w-full">
+                        <thead>
+                            <tr class="bg-base-200">
+                                <th class="w-1/3">Version</th>
+                                <th class="w-1/4">Release Date</th>
+                                <th class="w-1/4">Download</th>
+                                <th class="w-1/4">Info</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${releases.map(r => `
+                                <tr class="hover">
+                                    <td><a href="${r.url}" class="font-semibold text-python-blue hover:underline">${r.name}</a></td>
+                                    <td class="text-gray-600">${r.date}</td>
+                                    <td><a href="${r.url}" class="btn btn-xs btn-primary">Download</a></td>
+                                    <td><a href="${r.notes}" class="link link-primary text-sm">Notes</a></td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                `;
+            }
+
+            function createMinorVersionGroup(minor, releases, isFirst) {
+                const latest = releases[0];
+                return `
+                    <div class="collapse collapse-arrow bg-base-100 border border-base-300 rounded-lg">
+                        <input type="checkbox" class="peer" />
+                        <div class="collapse-title font-semibold flex items-center justify-between">
+                            <span>Python ${minor}</span>
+                            <span class="badge badge-sm badge-ghost">${releases.length} releases</span>
+                        </div>
+                        <div class="collapse-content">
+                            ${createReleaseTable(releases)}
+                        </div>
+                    </div>
+                `;
+            }
+
+            function createMajorVersionGroup(title, groups, badgeClass) {
+                const sortedMinors = Object.keys(groups).sort((a, b) => {
+                    const [aMajor, aMinor] = a.split('.').map(Number);
+                    const [bMajor, bMinor] = b.split('.').map(Number);
+                    return bMinor - aMinor || bMajor - aMajor;
+                });
+
+                const totalReleases = Object.values(groups).reduce((sum, arr) => sum + arr.length, 0);
+
+                return `
+                    <div class="collapse collapse-arrow bg-base-200 rounded-xl shadow">
+                        <input type="checkbox" class="peer" />
+                        <div class="collapse-title text-xl font-bold flex items-center gap-3">
+                            <span>${title}</span>
+                            <span class="badge ${badgeClass}">${totalReleases} releases</span>
+                        </div>
+                        <div class="collapse-content">
+                            <div class="space-y-2 pt-2">
+                                ${sortedMinors.map((minor, i) => createMinorVersionGroup(minor, groups[minor], i === 0)).join('')}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            let html = '';
+            if (Object.keys(python3Groups).length > 0) {
+                html += createMajorVersionGroup('Python 3', python3Groups, 'badge-primary');
+            }
+            if (Object.keys(python2Groups).length > 0) {
+                html += createMajorVersionGroup('Python 2 (Legacy)', python2Groups, 'badge-warning');
+            }
+
+            container.innerHTML = html;
+        });
+        </script>
+
         {% box 'download-otherreleases' %}
     </section>
 
@@ -182,20 +274,34 @@
         </div>
     </section>
 
-    <!-- Additional Info -->
-    <section class="space-y-8">
-        <div class="card bg-base-200">
-            <div class="card-body">
+    <!-- Additional Info - Compact Layout -->
+    <section class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+        <!-- Release Schedules - Button Grid -->
+        <div class="card bg-base-100 shadow">
+            <div class="card-body release-schedule-grid">
                 {% box 'usermessage-releaseschedule' %}
             </div>
         </div>
-        <div class="card bg-base-200">
-            <div class="card-body">
+
+        <!-- Developer Info - Button Grid -->
+        <div class="card bg-base-100 shadow">
+            <div class="card-body dev-info-grid">
                 {% box 'download-dev' %}
             </div>
         </div>
-        <div class="card bg-base-200">
-            <div class="card-body">
+    </section>
+
+    <!-- OpenPGP Public Keys - Collapsible -->
+    <section class="mb-8">
+        <div class="collapse collapse-arrow bg-base-200 rounded-xl">
+            <input type="checkbox" class="peer" />
+            <div class="collapse-title text-xl font-bold flex items-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-python-blue" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z" />
+                </svg>
+                OpenPGP Public Keys & Other Resources
+            </div>
+            <div class="collapse-content pgp-section">
                 {% box 'download-pgp' %}
             </div>
         </div>

@@ -5,52 +5,217 @@
 {% block page_title %}Our Community | {{ SITE_INFO.site_name }}{% endblock %}
 {% block og_title %}Our Community{% endblock %}
 
-{% block body_attributes %}class="shop"{% endblock %}
-
-
-{% block main-nav_attributes %}python-navigation{% endblock main-nav_attributes %}
-
+{% block body_attributes %}class="community"{% endblock %}
 
 {% block header_content %}
-                <div class="community-banner">
-                    {% box 'community-banner' %}
-                </div>
+<!-- Community Hero Section -->
+<section class="python-gradient py-16">
+    <div class="container mx-auto px-4 text-center">
+        <h1 class="text-4xl md:text-5xl font-bold mb-4 text-white">Python Community</h1>
+        <p class="text-xl mb-8 max-w-3xl mx-auto text-white/90">
+            Join millions of developers worldwide. Python's community is what makes it special - welcoming, diverse, and always ready to help.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+            <a href="https://discuss.python.org/" class="btn btn-lg bg-python-yellow text-python-dark border-none hover:bg-yellow-400 shadow-lg font-semibold">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                </svg>
+                Join the Discussion
+            </a>
+            <a href="/events/" class="btn btn-lg btn-outline border-white text-white hover:bg-white hover:text-python-blue font-semibold">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                </svg>
+                Find Events
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Quick Links Bar -->
+<section class="bg-base-200 py-4 border-b">
+    <div class="container mx-auto px-4">
+        <div class="flex flex-wrap justify-center gap-2">
+            <a href="/community/diversity/" class="badge badge-lg badge-outline hover:badge-primary cursor-pointer">Diversity</a>
+            <a href="/community/lists/" class="badge badge-lg badge-outline hover:badge-primary cursor-pointer">Mailing Lists</a>
+            <a href="/community/irc/" class="badge badge-lg badge-outline hover:badge-primary cursor-pointer">IRC</a>
+            <a href="https://discuss.python.org/" class="badge badge-lg badge-outline hover:badge-primary cursor-pointer">Forums</a>
+            <a href="/community/workshops/" class="badge badge-lg badge-outline hover:badge-primary cursor-pointer">Workshops</a>
+            <a href="/events/" class="badge badge-lg badge-outline hover:badge-primary cursor-pointer">Events</a>
+        </div>
+    </div>
+</section>
 {% endblock header_content %}
 
 
 {% block content %}
-    
-    <div class="row">
+<div class="container mx-auto px-4 py-12">
+    <!-- Community Widgets Grid -->
+    <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+        <!-- Widget 1 -->
+        <div class="card bg-base-100 shadow-xl hover:shadow-2xl transition-shadow border">
+            <div class="card-body">
+                <div class="w-12 h-12 rounded-lg bg-python-blue/10 flex items-center justify-center mb-3">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-python-blue" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                    </svg>
+                </div>
+                {% box 'community-widget1' %}
+            </div>
+        </div>
 
-        <div class="small-widget community-widget1">
-            {% box 'community-widget1' %}
+        <!-- Widget 2 -->
+        <div class="card bg-base-100 shadow-xl hover:shadow-2xl transition-shadow border">
+            <div class="card-body">
+                <div class="w-12 h-12 rounded-lg bg-python-yellow/20 flex items-center justify-center mb-3">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-yellow-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                    </svg>
+                </div>
+                {% box 'community-widget2' %}
+            </div>
         </div>
-        
-        <div class="small-widget community-widget2">
-            {% box 'community-widget2' %}
+
+        <!-- Widget 3 -->
+        <div class="card bg-base-100 shadow-xl hover:shadow-2xl transition-shadow border">
+            <div class="card-body">
+                <div class="w-12 h-12 rounded-lg bg-green-100 flex items-center justify-center mb-3">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                </div>
+                {% box 'community-widget3' %}
+            </div>
         </div>
-        
-        <div class="small-widget community-widget3">
-            {% box 'community-widget3' %}
-        </div>
-        
-        <div class="small-widget community-widget4 last">
-            <div class="shrubbery">
+
+        <!-- IRC Channels Widget -->
+        <div class="card bg-base-100 shadow-xl hover:shadow-2xl transition-shadow border">
+            <div class="card-body">
+                <div class="w-12 h-12 rounded-lg bg-purple-100 flex items-center justify-center mb-3">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z" />
+                    </svg>
+                </div>
                 {% box 'community-irc-channels' %}
             </div>
         </div>
-    
-    </div><!-- end .row -->
+    </section>
 
+    <!-- Ways to Get Involved Section -->
+    <section class="mb-12">
+        <h2 class="text-3xl font-bold text-center mb-8">Get Involved</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <!-- Contribute -->
+            <div class="card bg-gradient-to-br from-python-blue to-python-dark text-white">
+                <div class="card-body">
+                    <h3 class="card-title text-xl">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+                        </svg>
+                        Contribute
+                    </h3>
+                    <p class="text-white/90">Help improve Python by contributing to the core language, documentation, or the thousands of packages in the ecosystem.</p>
+                    <div class="card-actions justify-end mt-4">
+                        <a href="https://devguide.python.org/" class="btn btn-sm bg-python-yellow text-python-dark hover:bg-yellow-400">Developer Guide</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Organize Events -->
+            <div class="card bg-gradient-to-br from-python-yellow to-orange-400 text-python-dark">
+                <div class="card-body">
+                    <h3 class="card-title text-xl">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        </svg>
+                        Organize Events
+                    </h3>
+                    <p>Start a local meetup, organize a workshop, or help run a PyCon in your region. The PSF provides grants to support community events.</p>
+                    <div class="card-actions justify-end mt-4">
+                        <a href="/psf/grants/" class="btn btn-sm bg-python-dark text-white hover:bg-gray-800">Apply for Grants</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Teach & Learn -->
+            <div class="card bg-gradient-to-br from-green-500 to-green-700 text-white">
+                <div class="card-body">
+                    <h3 class="card-title text-xl">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                        </svg>
+                        Teach & Learn
+                    </h3>
+                    <p>Share your knowledge by teaching Python to beginners, or continue learning from the amazing tutorials and resources available.</p>
+                    <div class="card-actions justify-end mt-4">
+                        <a href="/community/workshops/" class="btn btn-sm bg-white text-green-700 hover:bg-gray-100">Find Workshops</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Community Posts/Content -->
     {% if object_list %}
-    <div class="row">
-        <h2>Community List</h2>
-        <ul>
-        {% for post in object_list %}
-            <li>{% render_template_for post as html %}{{ html }}</li>
-        {% endfor %}
-        </ul>
-    </div>
+    <section class="mb-12">
+        <h2 class="text-3xl font-bold mb-6 flex items-center gap-3">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-python-blue" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
+            </svg>
+            Community Spotlight
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {% for post in object_list %}
+            <div class="card bg-base-100 shadow hover:shadow-lg transition-shadow border">
+                <div class="card-body">
+                    {% render_template_for post as html %}
+                    {{ html }}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
     {% endif %}
-    
+
+    <!-- Community Stats & CTA -->
+    <section class="python-gradient rounded-2xl p-8 md:p-12 text-white">
+        <div class="text-center mb-8">
+            <h2 class="text-3xl font-bold mb-4">Be Part of Something Big</h2>
+            <p class="text-lg opacity-90 max-w-2xl mx-auto">
+                Python's community spans the globe. Whether you're a beginner or an expert, there's a place for you here.
+            </p>
+        </div>
+
+        <div class="stats stats-vertical lg:stats-horizontal shadow-lg bg-white/10 backdrop-blur w-full mb-8">
+            <div class="stat text-center">
+                <div class="stat-value text-python-yellow">8.2M+</div>
+                <div class="stat-desc text-white/80">Active Developers</div>
+            </div>
+            <div class="stat text-center">
+                <div class="stat-value text-python-yellow">300+</div>
+                <div class="stat-desc text-white/80">Annual Events</div>
+            </div>
+            <div class="stat text-center">
+                <div class="stat-value text-python-yellow">150+</div>
+                <div class="stat-desc text-white/80">Countries</div>
+            </div>
+            <div class="stat text-center">
+                <div class="stat-value text-python-yellow">35+</div>
+                <div class="stat-desc text-white/80">Years of Python</div>
+            </div>
+        </div>
+
+        <div class="flex flex-wrap justify-center gap-4">
+            <a href="/psf/membership/" class="btn btn-lg bg-python-yellow text-python-dark border-none hover:bg-yellow-400 font-semibold">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
+                </svg>
+                Join the PSF
+            </a>
+            <a href="https://discuss.python.org/" class="btn btn-lg btn-outline border-white text-white hover:bg-white hover:text-python-blue font-semibold">
+                Start Discussing
+            </a>
+        </div>
+    </section>
+</div>
 {% endblock content %}

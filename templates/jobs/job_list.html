@@ -5,70 +5,156 @@
 
 {% block page_title %}Python Job Board | {{ SITE_INFO.site_name }}{% endblock %}
 
-{% block content_attributes %}with-right-sidebar{% endblock %}
-
-
-{% block content %}
-<div class="row">
+{% block jobs_content %}
+<div>
     {% if mine_listing %}
-    <h1>My Submissions</h1>
+    <div class="flex items-center gap-2 mb-6">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-python-blue" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+        </svg>
+        <h1 class="text-2xl font-bold">My Job Submissions</h1>
+    </div>
     {% endif %}
-    <ol class="list-recent-jobs list-row-container menu">
+
+    <!-- Job Listings -->
+    <div class="space-y-4">
         {% for object in object_list %}
-        <li>
-            <h2 class="listing-company">
-                <span class="listing-company-name">
-                    {% if object.is_new and object.status != 'removed' %}<span class="listing-new">New</span>{% endif %}
-                    {% if object.status == 'removed' %}<span class="listing-removed">Removed</span>{% endif %}
-                    <a href="{{ object.get_absolute_url }}">{{ object.job_title }}</a><br/>
-		    {{ object.company_name }}
-                </span>
-                <span class="listing-location"><a href="{% url 'jobs:job_list_location' slug=object.location_slug %}" title="More jobs in {{ object.display_location }}">{{ object.display_location }}</a></span>
-            </h2>
-            {% if object.job_types.all %}
-            <span class="listing-job-type">{% for type in object.job_types.all %}<a href="{% url 'jobs:job_list_type' slug=type.slug %}" title="More {{ type.name }} jobs">{{ type.name }}</a>{% if not forloop.last %}, {% endif %}{% if forloop.last and object.other_job_type %}, {{ object.other_job_type }} {% endif %}{% endfor %}
-            </span>
-            {% else %}
-            <span class="listing-job-type">
-                {% if object.other_job_type %}
-                {{ object.other_job_type }}
-                {% endif %}
-            </span>
-            {% endif %}
-            <span class="listing-posted">Posted: <time datetime="{{ object.created|date:"c" }}">{{ object.created|date:"d F Y" }}</time></span>
-            <span class="listing-company-category"><a href="{% url 'jobs:job_list_category' slug=object.category.slug %}" title="More jobs in {{ object.category.name }}">{{ object.category.name }}</a></span>
-            {% if mine_listing and object.creator == request.user and object.status != 'removed' %}
-            <div class="listing-actions">
-                <a class="button delete"
-                   href="{% url 'jobs:job_remove' pk=object.pk %}"
-                   onclick="return confirm('Are you sure? You can\'t undo this action.');">Remove</a>
+        <div class="card bg-base-100 shadow hover:shadow-lg transition-shadow border border-base-300">
+            <div class="card-body p-5">
+                <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-3">
+                    <!-- Job Info -->
+                    <div class="flex-1">
+                        <div class="flex items-center gap-2 mb-1">
+                            {% if object.is_new and object.status != 'removed' %}
+                            <span class="badge badge-success badge-sm">New</span>
+                            {% endif %}
+                            {% if object.status == 'removed' %}
+                            <span class="badge badge-error badge-sm">Removed</span>
+                            {% endif %}
+                        </div>
+                        <h2 class="card-title text-lg mb-1">
+                            <a href="{{ object.get_absolute_url }}" class="hover:text-python-blue transition-colors">
+                                {{ object.job_title }}
+                            </a>
+                        </h2>
+                        <p class="text-gray-600 font-medium">{{ object.company_name }}</p>
+
+                        <!-- Job Meta -->
+                        <div class="flex flex-wrap items-center gap-3 mt-3 text-sm">
+                            <a href="{% url 'jobs:job_list_location' slug=object.location_slug %}" class="flex items-center gap-1 text-gray-600 hover:text-python-blue">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                                </svg>
+                                {{ object.display_location }}
+                            </a>
+
+                            <a href="{% url 'jobs:job_list_category' slug=object.category.slug %}" class="flex items-center gap-1 text-gray-600 hover:text-python-blue">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
+                                </svg>
+                                {{ object.category.name }}
+                            </a>
+
+                            <span class="flex items-center gap-1 text-gray-500">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                </svg>
+                                <time datetime="{{ object.created|date:"c" }}">{{ object.created|date:"M d, Y" }}</time>
+                            </span>
+                        </div>
+
+                        <!-- Job Types -->
+                        {% if object.job_types.all %}
+                        <div class="flex flex-wrap gap-2 mt-3">
+                            {% for type in object.job_types.all %}
+                            <a href="{% url 'jobs:job_list_type' slug=type.slug %}" class="badge badge-outline badge-sm hover:badge-primary">{{ type.name }}</a>
+                            {% endfor %}
+                            {% if object.other_job_type %}
+                            <span class="badge badge-outline badge-sm">{{ object.other_job_type }}</span>
+                            {% endif %}
+                        </div>
+                        {% elif object.other_job_type %}
+                        <div class="flex flex-wrap gap-2 mt-3">
+                            <span class="badge badge-outline badge-sm">{{ object.other_job_type }}</span>
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Actions -->
+                    <div class="flex md:flex-col gap-2">
+                        <a href="{{ object.get_absolute_url }}" class="btn btn-primary btn-sm">View Details</a>
+                        {% if mine_listing and object.creator == request.user and object.status != 'removed' %}
+                        <a href="{% url 'jobs:job_remove' pk=object.pk %}"
+                           onclick="return confirm('Are you sure? You can\'t undo this action.');"
+                           class="btn btn-error btn-sm btn-outline">Remove</a>
+                        {% endif %}
+                    </div>
+                </div>
             </div>
-            {% endif %}
-        </li>
+        </div>
         {% empty %}
-        <li><em>Sorry, there are no jobs here.</em></li>
+        <div class="card bg-base-200">
+            <div class="card-body text-center py-12">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 mx-auto text-gray-400 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                </svg>
+                <p class="text-gray-600 text-lg">No jobs found matching your criteria.</p>
+                <p class="text-gray-500 mt-2">Try adjusting your filters or <a href="{% url 'jobs:job_list' %}" class="link link-primary">view all jobs</a>.</p>
+            </div>
+        </div>
         {% endfor %}
-    </ol>
+    </div>
 
     <!-- Pagination -->
     {% if page_obj.has_previous or page_obj.has_next %}
-    <ul class="pagination menu">
-        {% if page_obj.has_previous %}
-            <li class="previous"><a href="?page={{ page_obj.previous_page_number }}">Prev</a></li>
-        {% else %}
-            <li class="previous"><a class="disabled" href="">Prev</a></li>
-        {% endif %}
+    <div class="flex justify-center mt-8">
+        <div class="join">
+            {% if page_obj.has_previous %}
+            <a href="?page={{ page_obj.previous_page_number }}" class="join-item btn">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                </svg>
+                Prev
+            </a>
+            {% else %}
+            <button class="join-item btn btn-disabled">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                </svg>
+                Prev
+            </button>
+            {% endif %}
 
-        {% for page in paginator.page_range %}
-        <li><a {% if page_obj.number == page %}class="active" {% endif %}href="?page={{ page }}">{{ page }}</a></li>
-        {% endfor %}
+            {% for page in paginator.page_range %}
+                {% if page == page_obj.number %}
+                <button class="join-item btn btn-active">{{ page }}</button>
+                {% elif page > page_obj.number|add:"-3" and page < page_obj.number|add:"3" %}
+                <a href="?page={{ page }}" class="join-item btn">{{ page }}</a>
+                {% elif page == 1 or page == paginator.num_pages %}
+                <a href="?page={{ page }}" class="join-item btn">{{ page }}</a>
+                {% elif page == page_obj.number|add:"-3" or page == page_obj.number|add:"3" %}
+                <button class="join-item btn btn-disabled">...</button>
+                {% endif %}
+            {% endfor %}
 
-        {% if page_obj.has_next %}
-            <li class="next"><a href="?page={{ page_obj.next_page_number }}">Next</a></li>
-        {% else %}
-            <li class="next"><a class="disabled" href="">Next</a></li>
-        {% endif %}
-    </ul>
+            {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}" class="join-item btn">
+                Next
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                </svg>
+            </a>
+            {% else %}
+            <button class="join-item btn btn-disabled">
+                Next
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                </svg>
+            </button>
+            {% endif %}
+        </div>
+    </div>
     {% endif %}
 </div>
-{% endblock content %}
+{% endblock jobs_content %}
