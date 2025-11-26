@@ -44,20 +44,57 @@
             background: linear-gradient(135deg, #FFD43B 0%, #FFA500 100%);
         }
 
-        /* Override legacy CSS for navbar visibility */
-        .navbar .navbar-center {
+        /* Desktop menu - hide on mobile, show on lg+ */
+        .desktop-menu {
             display: none !important;
         }
         @media (min-width: 1024px) {
-            .navbar .navbar-center {
+            .desktop-menu {
                 display: flex !important;
+                align-items: center !important;
             }
         }
-        .navbar .menu a {
-            color: white !important;
+        .desktop-menu ul {
+            display: flex !important;
+            flex-direction: row !important;
+            gap: 0 !important;
+            list-style: none !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            flex-wrap: nowrap !important;
         }
-        .navbar .menu a:hover {
+        .desktop-menu li {
+            display: block !important;
+            white-space: nowrap !important;
+        }
+        .desktop-menu a {
+            color: #ffffff !important;
+            padding: 0.5rem 0.75rem !important;
+            text-decoration: none !important;
+            border-radius: 0.375rem !important;
+            display: block !important;
+            font-size: 0.9rem !important;
+            white-space: nowrap !important;
+        }
+        .desktop-menu a:hover {
             background-color: #1e415e !important;
+        }
+
+        /* Desktop search - hide on mobile, show on md+ */
+        .desktop-search {
+            display: none !important;
+        }
+        @media (min-width: 768px) {
+            .desktop-search {
+                display: block !important;
+            }
+        }
+
+        /* Ensure navbar end items align properly */
+        .navbar-end {
+            display: flex !important;
+            align-items: center !important;
+            gap: 0.75rem !important;
         }
 
         /* Fix button text colors */
@@ -429,8 +466,9 @@
     <!-- Modern Navbar -->
     <div class="navbar bg-python-blue text-white sticky top-0 z-50 shadow-lg">
         <div class="navbar-start">
-            <div class="dropdown">
-                <div tabindex="0" role="button" class="btn btn-ghost lg:hidden">
+            <!-- Mobile hamburger menu -->
+            <div class="dropdown lg:hidden">
+                <div tabindex="0" role="button" class="btn btn-ghost">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h8m-8 6h16" />
                     </svg>
@@ -445,9 +483,9 @@
                 </ul>
             </div>
             {% block section-logo %}
-            <a href="/" class="btn btn-ghost text-2xl font-bold">
-                <div class="w-10 h-10 mr-2 bg-white rounded-lg p-1 flex items-center justify-center">
-                    <svg class="w-8 h-8" viewBox="0 0 110 110" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <a href="/" class="btn btn-ghost text-xl font-bold">
+                <div class="w-8 h-8 mr-2 bg-white rounded-lg p-0.5 flex items-center justify-center">
+                    <svg class="w-6 h-6" viewBox="0 0 110 110" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M54.5 0C24.4 0 26 13 26 13l0.03 13.5h29v4H17.5S0 27.5 0 55s15.3 26.5 15.3 26.5h9.2V67.8s-0.5-15.3 15-15.3h25.8s14.5 0.2 14.5-14V15.2S82.2 0 54.5 0zM39.8 8.8c2.7 0 4.8 2.2 4.8 4.8s-2.2 4.8-4.8 4.8-4.8-2.2-4.8-4.8 2.2-4.8 4.8-4.8z" fill="#FFD43B"/>
                         <path d="M55.5 110c30.1 0 28.5-13 28.5-13l-0.03-13.5h-29v-4h37.5s17.5 3 17.5-24.5-15.3-26.5-15.3-26.5h-9.2v13.7s0.5 15.3-15 15.3H44.7s-14.5-0.2-14.5 14v23.3S27.8 110 55.5 110zM70.2 101.2c-2.7 0-4.8-2.2-4.8-4.8s2.2-4.8 4.8-4.8 4.8 2.2 4.8 4.8-2.2 4.8-4.8 4.8z" fill="#306998"/>
                     </svg>
@@ -456,49 +494,23 @@
             </a>
             {% endblock %}
         </div>
-        <div class="navbar-center hidden lg:flex">
-            <ul class="menu menu-horizontal px-1 text-lg">
-                <li><a href="/downloads/" class="hover:bg-python-dark rounded-lg px-4 py-2">Downloads</a></li>
-                <li><a href="/doc/" class="hover:bg-python-dark rounded-lg px-4 py-2">Documentation</a></li>
-                <li><a href="/community/" class="hover:bg-python-dark rounded-lg px-4 py-2">Community</a></li>
-                <li><a href="/success-stories/" class="hover:bg-python-dark rounded-lg px-4 py-2">Success Stories</a></li>
-                <li><a href="/blogs/" class="hover:bg-python-dark rounded-lg px-4 py-2">News</a></li>
-                <li><a href="/events/" class="hover:bg-python-dark rounded-lg px-4 py-2">Events</a></li>
+        <!-- Desktop menu - in header (hidden on mobile via CSS) -->
+        <div class="desktop-menu">
+            <ul class="flex flex-row gap-1 list-none m-0 p-0">
+                <li><a href="/downloads/" class="text-white px-4 py-2 no-underline rounded-lg">Downloads</a></li>
+                <li><a href="/doc/" class="text-white px-4 py-2 no-underline rounded-lg">Documentation</a></li>
+                <li><a href="/community/" class="text-white px-4 py-2 no-underline rounded-lg">Community</a></li>
+                <li><a href="/success-stories/" class="text-white px-4 py-2 no-underline rounded-lg">Success Stories</a></li>
+                <li><a href="/blogs/" class="text-white px-4 py-2 no-underline rounded-lg">News</a></li>
+                <li><a href="/events/" class="text-white px-4 py-2 no-underline rounded-lg">Events</a></li>
             </ul>
         </div>
-        <div class="navbar-end gap-2">
-            <!-- Desktop/Tablet Search -->
-            <form action="/search/" method="get" class="form-control hidden md:flex">
-                <div class="join">
-                    <input type="search" name="q" placeholder="Search..." value="{{ request.GET.q }}" class="input input-bordered join-item w-40 lg:w-52 bg-white/10 border-white/30 text-white placeholder:text-gray-300 focus:bg-white/20 focus:border-white/50" />
-                    <button type="submit" class="btn join-item bg-python-yellow text-python-dark border-none hover:bg-yellow-400">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                        </svg>
-                    </button>
-                </div>
+        <div class="navbar-end">
+            <!-- Search -->
+            <form action="/search/" method="get" class="desktop-search">
+                <input type="search" name="q" placeholder="Search" value="{{ request.GET.q }}" class="px-3 py-1.5 rounded-md text-white w-40" style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2);" />
             </form>
-            <!-- Mobile Search Button -->
-            <div class="dropdown dropdown-end md:hidden">
-                <label tabindex="0" class="btn btn-circle bg-python-yellow text-python-dark border-none hover:bg-yellow-400">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                    </svg>
-                </label>
-                <div tabindex="0" class="dropdown-content z-[1] mt-3 p-4 shadow-lg bg-base-100 rounded-box w-72">
-                    <form action="/search/" method="get">
-                        <div class="join w-full">
-                            <input type="search" name="q" placeholder="Search Python.org..." value="{{ request.GET.q }}" class="input input-bordered join-item flex-1" />
-                            <button type="submit" class="btn btn-primary join-item">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                                </svg>
-                            </button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-            <a href="https://donate.python.org/" class="btn btn-md bg-python-yellow text-python-dark border-none hover:bg-yellow-400 text-base font-semibold px-4 lg:px-6">Donate</a>
+            <a href="https://donate.python.org/" class="btn btn-sm bg-python-yellow text-python-dark border-none hover:bg-yellow-400 font-semibold px-4">Donate</a>
         </div>
     </div>
 

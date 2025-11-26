@@ -2,91 +2,132 @@
 {% load imagekit %}
 {% load boxes %}
 
-{% block page_title %}Our Success Stories | {{ SITE_INFO.site_name }}{% endblock %}
+{% block page_title %}Success Stories | {{ SITE_INFO.site_name }}{% endblock %}
 
 {% block body_attributes %}class="python success-stories"{% endblock %}
 
-
 {% block header_content %}
-    <div class="featured-success-story">
-
-        <figure class="blockquote">
-
-            {#  Need a way to set a "Featured" Success Story for this spot up here #}
-
-            {% comment %}
-            The PSF will have to get permission to use the logos on the website.
-            So don't display a broken image for now.
-            <img src="{{ STATIC_URL }}img/google-trans.png" alt="Google">
-            See https://github.com/python/pythondotorg/issues/106
-            {% endcomment %}
-
-            <blockquote class="success-quote">
-                Python allows us to produce maintainable features in record times, with a minimum of developers.
+<!-- Featured Quote Hero -->
+<div class="python-gradient py-16">
+    <div class="container mx-auto px-4">
+        <div class="max-w-4xl mx-auto text-center text-white">
+            <span class="badge badge-warning badge-lg mb-4">Success Stories</span>
+            <blockquote class="text-2xl md:text-3xl font-light italic mb-6">
+                "Python allows us to produce maintainable features in record times, with a minimum of developers."
             </blockquote>
-            <figcaption>
-                <p class="quote-by"><cite>Cuong Do, Software Architect</cite></p>
-                <p class="quote-by-organization">YouTube.com</p>
-            </figcaption>
-        </figure>
-
+            <div class="flex items-center justify-center gap-2">
+                <div class="text-python-yellow font-semibold">Cuong Do, Software Architect</div>
+                <span class="text-white/50">|</span>
+                <div class="text-white/80">YouTube.com</div>
+            </div>
+        </div>
     </div>
+</div>
 {% endblock header_content %}
 
-
 {% block content %}
-    <div class="row">
-        <div class="row-title">
-            <h2 class="widget-title">
-                <span aria-hidden="true" class="icon-success-stories"></span>Newest success stories
+<div class="container mx-auto px-4 py-12">
+    <!-- Newest Stories Section -->
+    <div class="mb-12">
+        <div class="flex items-center justify-between mb-8">
+            <h2 class="text-2xl font-bold text-python-blue flex items-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
+                </svg>
+                Newest Success Stories
             </h2>
         </div>
-        {% for story in object_list %}
-            {% thumbnail '240x80' story.company.logo as th %}
-            <div class="medium-widget success-story{% if forloop.counter|divisibleby:'2' %} last{% endif %}">
-                <div class="shrubbery">
 
-                    {% if story.company.logo %}<img src="{{ th.url }}" alt="{{ story.name }}" width="{{ th.width }}" height="{{ th.height }}">{% endif %}
-                    <h2 class="widget-title"><a href="{{ story.get_absolute_url }}">{{ story.name }}</a></h2>
-                    <p class="success-quote">
-                        {{ story.pull_quote }} <a class="readmore" href="{{ story.get_absolute_url }}">Read more</a>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {% for story in object_list %}
+            <div class="card bg-base-100 shadow-xl hover:shadow-2xl transition-shadow">
+                <div class="card-body">
+                    {% thumbnail '240x80' story.company.logo as th %}
+                    {% if story.company.logo %}
+                    <figure class="mb-4 h-16 flex items-center">
+                        <img src="{{ th.url }}" alt="{{ story.name }}" class="max-h-full max-w-full object-contain" />
+                    </figure>
+                    {% endif %}
+                    <h3 class="card-title text-lg">
+                        <a href="{{ story.get_absolute_url }}" class="hover:text-python-blue transition-colors">
+                            {{ story.name }}
+                        </a>
+                    </h3>
+                    <p class="text-base-content/70 text-sm italic mb-4">
+                        "{{ story.pull_quote|truncatewords:25 }}"
                     </p>
+                    <div class="card-actions justify-end">
+                        <a href="{{ story.get_absolute_url }}" class="btn btn-primary btn-sm">
+                            Read Story
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                            </svg>
+                        </a>
+                    </div>
                 </div>
             </div>
-        {% endfor %}
+            {% endfor %}
+        </div>
     </div>
 
+    <!-- Categories Section -->
     {% load successstories %}
     {% get_story_categories as story_categories %}
 
-    <div class="row newest-success-stories">
-
-        <div class="row-title">
-            <h2 class="widget-title">
-                <span aria-hidden="true" class="icon-success-stories"></span>Newest success stories by category
-                {% comment %}
-                <a class="activity-feed" href="#"><span class="icon-list"></span>View as Activity Feed</a>
-                {% endcomment %}
-            </h2>
-        </div>
-
-        {% for story_category in story_categories %}
-            <div class="small-widget success-story-category {% if forloop.counter|divisibleby:"4" %}last{% endif %}">
-                <h3 class="widget-title">{{ story_category.name }}</h3>
-                {% get_stories_by_category category_slug=story_category.slug as category_stories %}
-                {% for story in category_stories %}
-                    <p><a href="{{ story.get_absolute_url }}">{{ story.name }}</a></p>
-                {% endfor %}
-                <p><a class="readmore" href="{{ story_category.get_absolute_url }}">See All</a></p>
-            </div>
-
-            {% if forloop.last %}
-            <div class="small-widget submit-your-success-story last">
-                {% box 'successstory-submityours' %}
-            </div>
-            {% endif %}
-        {% endfor %}
-
+    <div class="divider">
+        <span class="text-base-content/50">Browse by Category</span>
     </div>
 
+    <div class="mt-8">
+        <h2 class="text-2xl font-bold text-python-blue flex items-center gap-2 mb-8">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
+            </svg>
+            Stories by Category
+        </h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {% for story_category in story_categories %}
+            <div class="card bg-base-100 shadow-lg hover:shadow-xl transition-shadow">
+                <div class="card-body">
+                    <h3 class="card-title text-python-blue text-lg mb-3">{{ story_category.name }}</h3>
+                    {% get_stories_by_category category_slug=story_category.slug as category_stories %}
+                    <ul class="space-y-2">
+                        {% for story in category_stories %}
+                        <li>
+                            <a href="{{ story.get_absolute_url }}" class="text-sm hover:text-python-blue transition-colors flex items-center gap-1">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                                </svg>
+                                {{ story.name|truncatewords:5 }}
+                            </a>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                    <div class="card-actions justify-end mt-4">
+                        <a href="{{ story_category.get_absolute_url }}" class="link link-primary text-sm">
+                            See All
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 inline ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+
+            <!-- Submit CTA Card -->
+            <div class="card bg-python-blue/5 border-2 border-dashed border-python-blue/30 hover:border-python-blue/50 transition-colors">
+                <div class="card-body items-center text-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-python-blue/50 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                    </svg>
+                    <h3 class="card-title text-lg text-python-blue">Share Your Story</h3>
+                    <p class="text-sm text-base-content/60 mb-4">Using Python successfully? Tell the world!</p>
+                    {% box 'successstory-submityours' %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock content %}

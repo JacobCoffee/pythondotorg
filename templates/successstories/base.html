@@ -5,26 +5,48 @@
 {% sitetree_breadcrumbs from "main" %}
 {% endblock breadcrumbs %}
 
-{% block content_attributes %}with-left-sidebar{% endblock %}
-
 {% block content %}
 {% endblock content %}
 
-
 {% block left_sidebar %}
-<aside class="left-sidebar" role="secondary">
-
-    <div class="section-navigation sidebar-widget">
-
-        <ul class="section-nav menu" role="menu" aria-hidden="false">
-            <li class="tier-1" role="treeitem"><a href="{% url 'success_story_list' %}" title="">Success stories home</a></li>
-            {% for category in category_list %}
-            <li class="tier-1" role="treeitem"><a href="{{ category.get_absolute_url }}" title="">{{ category.name }}</a></li>
-            {% endfor %}
-            <li class="tier-1" role="treeitem"><a href="{% url 'success_story_create' %}" title=""><strong>Submit Yours!</strong></a></li>
-        </ul>
-
+<!-- Modern Sidebar Navigation -->
+<aside class="hidden lg:block sticky top-24 space-y-6" role="secondary">
+    <div class="card bg-base-100 shadow-xl">
+        <div class="card-body">
+            <h2 class="card-title text-python-blue mb-4">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
+                </svg>
+                Browse Stories
+            </h2>
+            <ul class="space-y-2">
+                <li>
+                    <a href="{% url 'success_story_list' %}" class="flex items-center p-2 rounded-lg hover:bg-base-200 transition-colors">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2 text-python-blue" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                        </svg>
+                        All Stories
+                    </a>
+                </li>
+                {% for category in category_list %}
+                <li>
+                    <a href="{{ category.get_absolute_url }}" class="flex items-center p-2 rounded-lg hover:bg-base-200 transition-colors">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2 text-python-blue" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
+                        </svg>
+                        {{ category.name }}
+                    </a>
+                </li>
+                {% endfor %}
+            </ul>
+            <div class="divider"></div>
+            <a href="{% url 'success_story_create' %}" class="btn btn-primary btn-sm w-full">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                </svg>
+                Submit Yours!
+            </a>
+        </div>
     </div>
-
 </aside>
 {% endblock left_sidebar %}

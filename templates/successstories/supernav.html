@@ -1,11 +1,21 @@
-<!-- successstories supernav from templates/successstories/supernav.html -->
-       <li class="tier-2 super-navigation">
-            {% if story.image %}
-            <img src="{{ story.image.url }}" alt="{{ story.get_company_name }}">
+<!-- Success Story Supernav Card -->
+<li class="card bg-base-100 shadow-md p-4 hover:shadow-lg transition-shadow">
+    {% if story.image %}
+    <figure class="mb-3">
+        <img src="{{ story.image.url }}" alt="{{ story.get_company_name }}" class="rounded-lg max-h-20 object-contain" />
+    </figure>
+    {% endif %}
+    <blockquote class="text-sm italic text-base-content/80 mb-3">
+        "{{ story.pull_quote|truncatewords:20 }}"
+    </blockquote>
+    <div class="text-sm">
+        <p class="font-semibold text-python-blue">{{ story.author }}</p>
+        <p class="text-base-content/60">
+            {% if story.get_company_url %}
+            <a href="{{ story.get_company_url }}" class="hover:text-python-blue transition-colors">{{ story.get_company_name }}</a>
+            {% else %}
+            {{ story.get_company_name }}
             {% endif %}
-            <blockquote class="success-quote">
-                {{ story.pull_quote }}
-            </blockquote>
-            <p class="quote-by"><cite>{{ story.author }}</cite>, {% if story.get_company_url %}<a href="{{ story.get_company_url }}">{{ story.get_company_name }}</a>{% else %}{{ story.get_company_name }}{% endif %}</p>
-
-        </li>
+        </p>
+    </div>
+</li>

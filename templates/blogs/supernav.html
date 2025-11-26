@@ -1,7 +1,18 @@
-<li class="tier-2 super-navigation">
-    <p class="date-posted"><small>{{ entry.pub_date|date:"l, F j, Y" }}</small></p>
-    <h4>{{ entry.title }}</h4>
-    <p class="excerpt">
-        <small>{{ entry.summary|truncatewords_html:50|striptags|safe }}<a class="readmore" href="{{ entry.url }}">Read more</a></small>
+<li class="card bg-base-100 shadow-md hover:shadow-xl transition-shadow p-4 border border-base-200">
+    <div class="mb-2">
+        <span class="badge badge-primary badge-sm">
+            {{ entry.pub_date|date:"l, F j, Y" }}
+        </span>
+    </div>
+    <h4 class="text-lg font-semibold mb-2">
+        <a href="{{ entry.url }}" class="hover:text-python-blue transition-colors">
+            {{ entry.title }}
+        </a>
+    </h4>
+    <p class="text-sm text-base-content/70 mb-3">
+        {{ entry.summary|truncatewords_html:50|striptags|safe }}
     </p>
+    <a class="link link-primary text-sm font-medium" href="{{ entry.url }}">
+        Read more →
+    </a>
 </li>

@@ -6,185 +6,206 @@
 
 {% block body_attributes %}class="python default-page single-event"{% endblock %}
 
-{% block content_attributes %}with-right-sidebar{% endblock %}
+{% block header_content %}
+<!-- Event Hero -->
+<div class="python-gradient py-12">
+    <div class="container mx-auto px-4">
+        <div class="max-w-4xl mx-auto text-white">
+            <nav class="text-sm breadcrumbs mb-4">
+                <ul class="flex items-center gap-2 text-white/70">
+                    <li><a href="/events/" class="hover:text-white">Events</a></li>
+                    <li class="before:content-['/'] before:mx-2">{{ object.title|striptags|truncatewords:5 }}</li>
+                </ul>
+            </nav>
+            <h1 class="text-3xl md:text-4xl font-bold mb-4">{{ object.title|striptags }}</h1>
 
+            {% if object.venue %}
+            <p class="flex items-center gap-2 text-python-yellow mb-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+                {% if object.venue.url %}<a href="{{ object.venue.url }}" class="hover:underline">{% endif %}{{ object.venue.name }}{% if object.venue.url %}</a>{% endif %}{% if object.venue.address %}, {{ object.venue.address }}{% endif %}
+            </p>
+            {% endif %}
+
+            {% with object.next_or_previous_time as next_time %}
+            <p class="flex items-center gap-2 text-white/90">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                </svg>
+                {% if next_time.single_day %}
+                <time datetime="{{ next_time.dt_start|date:'Y-m-d' }}">{{ next_time.dt_start|date:"l, F d, Y" }}</time>
+                {% if not next_time.all_day %}
+                <span class="text-white/70">{{ next_time.dt_start|date:"g:iA"|lower }} {% if next_time.valid_dt_end %}- {{ next_time.dt_end|date:"g:iA"|lower }}{% endif %} {{ next_time.dt_start|date:"e" }}</span>
+                {% endif %}
+                {% else %}
+                <time datetime="{{ next_time.dt_start|date:'c' }}">{{ next_time.dt_start|date:"F d" }}</time>
+                <span>-</span>
+                <time datetime="{{ next_time.dt_end|date:'c' }}">{{ next_time.dt_end|date:"F d, Y" }}</time>
+                {% endif %}
+            </p>
+            {% endwith %}
+        </div>
+    </div>
+</div>
+{% endblock header_content %}
 
 {% block content %}
+<div class="container mx-auto px-4 py-12">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <!-- Main Content -->
+        <div class="lg:col-span-2">
+            <article class="card bg-base-100 shadow-xl">
+                <div class="card-body prose prose-lg max-w-none">
+                    {{ object.description.rendered|safe }}
+                </div>
+            </article>
 
-                <article class="text">
-            		
-            		<h1 class="single-event-title">
-                        {{ object.title|striptags }}
-                    </h1>
-
-                    {% if object.venue %}
-                    <span class="single-event-location">
-                        {% if object.venue.url %}<a href="{{ object.venue.url }}">{% endif %}{{ object.venue.name }}{% if object.venue.url %}</a>{% endif %}
-                        {% if object.venue.address %}, {{ object.venue.address }}{% endif %}
-                    </span>
-                    {% endif %}
-                    
-                    {% with object.next_or_previous_time as next_time %}
-                    {% if next_time.single_day %}
-                    <!-- Single date with start and end times -->
-                    <h3 class="single-event-date">
-                        <time class="single-date" datetime="{{ next_time.dt_start|date:'Y-m-d' }}">{{ next_time.dt_start|date:"d N" }}</time> 
-                        <time class="time-start" datetime="{{ next_time.dt_start|date:'Y-m-d H:i' }}">{% if not next_time.all_day %}from {{ next_time.dt_start|date:"fA"|lower }} {{ next_time.dt_start|date:"e" }}{% endif %}</time> 
-                        {% if next_time.valid_dt_end %}
-                        <time class="time-end" datetime="{{ next_time.dt_end|date:'Y-m-d H:i' }}">{% if not next_time.all_day %}to {{ next_time.dt_end|date:"fA"|lower }} {{ next_time.dt_end|date:"e" }}</time>{% endif %}{% endif %}, 
-                        <time class="year" datetime="{{ next_time.dt_end|date:'Y' }}">{{ next_time.dt_end|date:"Y" }}</time>
-                    </h3>
-
-                    {% else %}
-
-                    <!-- Different start and end dates -->
-                    <h3 class="single-event-date">
-                        <time class="date-start" datetime="{{ next_time.dt_start|date:'c' }}">From {{ next_time.dt_start|date:"d N" }}{% if not next_time.all_day %} at {{ next_time.dt_start|date:"fA"|lower }} {{ next_time.dt_start|date:"e" }}{% endif %}</time> 
-                        <time class="date-end" datetime="{{ next_time.dt_end|date:'c' }}">through {{ next_time.dt_end|date:"d N" }}{% if not next_time.all_day %} at {{ next_time.dt_end|date:"fA"|lower }} {{ next_time.dt_end|date:"e" }}{% endif %}</time>, 
-                        <time class="year" datetime="{{ next_time.dt_end|date:"Y" }}">{{ next_time.dt_end|date:"Y" }}</time>
-                    </h3>
-                    {% endif %}
-                    {% endwith %}
-                    
-                    <!-- Add a display for Recurrence Rules? -->
-                    
-                    
-                    <!-- User input html/markup/rst/whatever -->
-                    <div class="event-description">
-                        {{ object.description.rendered|safe }}
+            <!-- Navigation -->
+            <div class="flex flex-col sm:flex-row gap-4 mt-8">
+                {% if object.previous_event %}
+                {% with object.previous_event as event %}
+                <a href="{{ event.get_absolute_url }}" class="flex-1 card bg-base-100 shadow hover:shadow-lg transition-shadow group">
+                    <div class="card-body p-4">
+                        <span class="text-sm text-base-content/60 flex items-center gap-1">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                            </svg>
+                            Previous Event
+                        </span>
+                        <span class="font-semibold group-hover:text-python-blue transition-colors">{{ event.title|striptags|truncatewords:8 }}</span>
+                        {% if event.venue %}
+                        <span class="text-sm text-base-content/60">{{ event.venue.name }}</span>
+                        {% endif %}
                     </div>
-                </article>
-                
-                
-                <!-- Next or Previous Events by date and location (Keep them in the sphere of this Event's location, or only sort by date?) -->
-                <p class="previous-next">
-                    
-                    {% if object.previous_event %}
-                    {% with object.previous_event as event %}
-                    <a class="prev-button" href="{{ event.get_absolute_url }}">
-                        <span class="prev-button-text"><span class="icon-arrow-left"><span>&larr;</span></span> Previous</span>
-                        <span class="prevnext-description">
-                            <span class="event-name">{{ event.title|striptags }}</span>{% if event.venue %} in <span class="event-location">{{ event.venue.name }}</span>{% endif %}
-                        </span>
-                    </a>
-                    {% endwith %}
-                    {% endif %}
-                    
-                    {% if object.next_event %}
-                    {% with object.next_event as event %}
-                    <a class="next-button" href="{{ event.get_absolute_url }}">
-                        <span class="next-button-text">Next <span class="icon-arrow-right"><span>&rarr;</span></span></span>
-                        <span class="prevnext-description">
-                            <span class="event-name">{{ event.title|striptags }}</span>{% if event.venue %} in <span class="event-location">{{ event.venue.name }}</span>{% endif %}
-                        </span>
-                    </a>
-                    {% endwith %}
-                    {% endif %}
-                    
-                </p>
-                
-                
-{% endblock content %}
-
-
-
-{% block right_sidebar %}
-            <aside class="right-sidebar">
-                
-                <div class="sidebar-widget more-by-location">
-                    <h3 class="widget-title">Explore events{# near <!-- The current location--><a href="{{ object.venue.get_absolute_url }}">{{ object.venue.name }}</a> #}</h3>
-                
-                    <!-- If we wanna have more fun with it, we can allow the user to choose to expand the location matching before they go anywhere and load more events below with Ajax -->
-                        
-                    <form>
-                        <fieldset title="Narrow or expand the event search by timeframe">
-                            {% comment %}
-                            <p><select name="">
-                                <option value="-">-- Change your location range</option>
-                                <option value="-">Within 10 miles</option>
-                                <option value="-">Within 50 miles</option>
-                                <option value="-">Within 100 miles</option>
-                                <option value="-">Within 250 miles</option>
-                            </select></p>
-                            {% endcomment %}
-                            
-                            <p><select name="" id="dataRangeSelect">
-                                <option value="-">-- Change your date range</option>
-                                {% if next_7 %}
-                                {% with next_7 as dt %}
-                                <option value="{% url 'events:eventlist_date' calendar_slug=view.kwargs.calendar_slug year=dt|date:'Y' month=dt|date:'m' day=dt|date:'d' %}">The next 7 days</option>
-                                {% endwith %}
-                                {% endif %}
-
-                                {% if next_30 %}
-                                {% with next_30 as dt %}
-                                <option value="{% url 'events:eventlist_date' calendar_slug=view.kwargs.calendar_slug year=dt|date:'Y' month=dt|date:'m' day=dt|date:'d' %}">The next 30 days</option>
-                                {% endwith %}
-                                {% endif %}
-
-                                {% if next_90 %}
-                                {% with next_90 as dt %}
-                                <option value="{% url 'events:eventlist_date' calendar_slug=view.kwargs.calendar_slug year=dt|date:'Y' month=dt|date:'m' day=dt|date:'d' %}">The next 90 days</option>
-                                {% endwith %}
-                                {% endif %}
-
-                                {% if next_365 %}
-                                {% with next_365 as dt %}
-                                <option value="{% url 'events:eventlist_date' calendar_slug=view.kwargs.calendar_slug year=dt|date:'Y' month=dt|date:'m' day=dt|date:'d' %}">The next year</option>
-                                {% endwith %}
-                                {% endif %}
-
-                            </select></p>
-                        </fieldset>
-                    </form>
-                    {% comment %}
-                    <ul class="menu">
-                        <li><a href="#">Event number 1</a></li>
-                        <li><a href="#">Event number 2</a></li>
-                        <li><a href="#">Event number 3</a></li>
-                        <li><a href="#">Event number 4</a></li>
-                        <li><a href="#">Event number 5</a></li>
-                    </ul>
-                    {% endcomment %}
-                </div>
-                
-                {% if object.venue %}
-                {% with object.venue as venue %}
-                {% if venue.events.all %}
-                <div class="sidebar-widget more-by-venue">
-                    <h3 class="widget-title">More events at <!-- The current venue--><a href="{{ venue.get_absolute_url }}">{{ venue.name }}</a></h3>
-                    <ul class="menu">
-                        {% for event in venue.events.all %}
-                        <li><a href="{{ event.get_absolute_url }}">{{ event.title|striptags }}</a></li>
-                        {% endfor %}
-                    </ul>
-                </div>
-                {% endif %}
+                </a>
                 {% endwith %}
                 {% endif %}
-                
-                {% for category in object.categories.all %}
-                {% if category.events.all %}
-                <div class="sidebar-widget more-by-category">
-                    <h3 class="widget-title">More events in <!-- The current category--><a href="{{ category.get_absolute_url }}">{{ category.name }}</a></h3>
-                    <ul class="menu">
-                        {% for event in category.events.all %}
-                        <li><a href="#">{{ event.title|striptags }}</a></li>
+
+                {% if object.next_event %}
+                {% with object.next_event as event %}
+                <a href="{{ event.get_absolute_url }}" class="flex-1 card bg-base-100 shadow hover:shadow-lg transition-shadow group text-right">
+                    <div class="card-body p-4">
+                        <span class="text-sm text-base-content/60 flex items-center justify-end gap-1">
+                            Next Event
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                            </svg>
+                        </span>
+                        <span class="font-semibold group-hover:text-python-blue transition-colors">{{ event.title|striptags|truncatewords:8 }}</span>
+                        {% if event.venue %}
+                        <span class="text-sm text-base-content/60">{{ event.venue.name }}</span>
+                        {% endif %}
+                    </div>
+                </a>
+                {% endwith %}
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Sidebar -->
+        <aside class="lg:col-span-1 space-y-6">
+            <!-- Explore Events Widget -->
+            <div class="card bg-base-100 shadow-xl">
+                <div class="card-body">
+                    <h2 class="card-title text-python-blue mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                        </svg>
+                        Explore Events
+                    </h2>
+                    <select id="dataRangeSelect" class="select select-bordered w-full">
+                        <option value="-">Change date range</option>
+                        {% if next_7 %}
+                        {% with next_7 as dt %}
+                        <option value="{% url 'events:eventlist_date' calendar_slug=view.kwargs.calendar_slug year=dt|date:'Y' month=dt|date:'m' day=dt|date:'d' %}">Next 7 days</option>
+                        {% endwith %}
+                        {% endif %}
+                        {% if next_30 %}
+                        {% with next_30 as dt %}
+                        <option value="{% url 'events:eventlist_date' calendar_slug=view.kwargs.calendar_slug year=dt|date:'Y' month=dt|date:'m' day=dt|date:'d' %}">Next 30 days</option>
+                        {% endwith %}
+                        {% endif %}
+                        {% if next_90 %}
+                        {% with next_90 as dt %}
+                        <option value="{% url 'events:eventlist_date' calendar_slug=view.kwargs.calendar_slug year=dt|date:'Y' month=dt|date:'m' day=dt|date:'d' %}">Next 90 days</option>
+                        {% endwith %}
+                        {% endif %}
+                        {% if next_365 %}
+                        {% with next_365 as dt %}
+                        <option value="{% url 'events:eventlist_date' calendar_slug=view.kwargs.calendar_slug year=dt|date:'Y' month=dt|date:'m' day=dt|date:'d' %}">Next year</option>
+                        {% endwith %}
+                        {% endif %}
+                    </select>
+                </div>
+            </div>
+
+            {% if object.venue %}
+            {% with object.venue as venue %}
+            {% if venue.events.all %}
+            <!-- More at Venue Widget -->
+            <div class="card bg-base-100 shadow-xl">
+                <div class="card-body">
+                    <h2 class="card-title text-python-blue mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                        </svg>
+                        More at <a href="{{ venue.get_absolute_url }}" class="link link-primary">{{ venue.name }}</a>
+                    </h2>
+                    <ul class="space-y-2">
+                        {% for event in venue.events.all %}
+                        <li>
+                            <a href="{{ event.get_absolute_url }}" class="flex items-center p-2 rounded-lg hover:bg-base-200 transition-colors text-sm">
+                                <span>{{ event.title|striptags|truncatewords:8 }}</span>
+                            </a>
+                        </li>
                         {% endfor %}
                     </ul>
                 </div>
-                {% endif %}
-                {% endfor %}
+            </div>
+            {% endif %}
+            {% endwith %}
+            {% endif %}
 
-            </aside>
-{% endblock right_sidebar %}
+            {% for category in object.categories.all %}
+            {% if category.events.all %}
+            <!-- Category Widget -->
+            <div class="card bg-base-100 shadow-xl">
+                <div class="card-body">
+                    <h2 class="card-title text-python-blue mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
+                        </svg>
+                        <a href="{{ category.get_absolute_url }}" class="link link-primary">{{ category.name }}</a>
+                    </h2>
+                    <ul class="space-y-2">
+                        {% for event in category.events.all %}
+                        <li>
+                            <a href="{{ event.get_absolute_url }}" class="flex items-center p-2 rounded-lg hover:bg-base-200 transition-colors text-sm">
+                                <span>{{ event.title|striptags|truncatewords:8 }}</span>
+                            </a>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            {% endif %}
+            {% endfor %}
+        </aside>
+    </div>
+</div>
+{% endblock content %}
 
 {% block javascript %}
 {{ block.super }}
 <script>
 $(function(){
     $('#dataRangeSelect').change(function(e) {
-        window.location = $(this).val();
+        if ($(this).val() !== '-') {
+            window.location = $(this).val();
+        }
     });
 });
 </script>

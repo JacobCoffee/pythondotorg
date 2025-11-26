@@ -1,21 +1,93 @@
-{% extends "successstories/story_detail.html" %}
+{% extends "successstories/base.html" %}
 
-{% block page_title %}{{ object.name }} | Our Success Stories | {{ SITE_INFO.site_name }}{% endblock %}
+{% block page_title %}{{ object.name }} | Success Stories | {{ SITE_INFO.site_name }}{% endblock %}
 
 {% block body_attributes %}class="python success-stories"{% endblock %}
 
+{% block header_content %}
+<!-- Category Hero -->
+<div class="python-gradient py-12">
+    <div class="container mx-auto px-4">
+        <div class="max-w-4xl mx-auto text-white">
+            <nav class="text-sm breadcrumbs mb-4">
+                <ul class="flex items-center gap-2 text-white/70">
+                    <li><a href="/success-stories/" class="hover:text-white">Success Stories</a></li>
+                    <li class="before:content-['/'] before:mx-2">{{ object.name }}</li>
+                </ul>
+            </nav>
+            <h1 class="text-3xl md:text-4xl font-bold mb-2">{{ object.name }}</h1>
+            <p class="text-white/80">Success stories in this category</p>
+        </div>
+    </div>
+</div>
+{% endblock header_content %}
+
 {% block content %}
-    
-    <article>
-        
-        <h1>{{ object.name }}</h1>
-        
-        <ul class="menu success-story-category">
-            {% for story in object.success_stories.published %}
-            <li><a href="{{ story.get_absolute_url }}">{{ story.name }}</a></li>
-            {% endfor %}
-        </ul>
-                
-    </article>
-    
+<div class="container mx-auto px-4 py-12">
+    <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+        <!-- Sidebar -->
+        <div class="lg:col-span-1 order-2 lg:order-1">
+            {{ block.super }}
+        </div>
+
+        <!-- Main Content -->
+        <div class="lg:col-span-3 order-1 lg:order-2">
+            <div class="card bg-base-100 shadow-xl">
+                <div class="card-body">
+                    <h2 class="card-title text-2xl text-python-blue mb-6">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
+                        </svg>
+                        {{ object.name }} Stories
+                    </h2>
+
+                    {% if object.success_stories.published %}
+                    <div class="space-y-4">
+                        {% for story in object.success_stories.published %}
+                        <a href="{{ story.get_absolute_url }}" class="card card-side bg-base-200/50 hover:bg-base-200 hover:shadow-lg transition-all group">
+                            <div class="card-body p-4">
+                                <h3 class="card-title text-lg group-hover:text-python-blue transition-colors">
+                                    {{ story.name }}
+                                </h3>
+                                {% if story.pull_quote %}
+                                <p class="text-base-content/70 text-sm italic">
+                                    "{{ story.pull_quote|truncatewords:20 }}"
+                                </p>
+                                {% endif %}
+                                <div class="text-sm text-python-blue flex items-center gap-1">
+                                    Read story
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                                    </svg>
+                                </div>
+                            </div>
+                        </a>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    <div class="text-center py-12 text-base-content/60">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 mx-auto mb-4 opacity-50" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                        <p>No stories in this category yet.</p>
+                        <a href="{% url 'success_story_create' %}" class="btn btn-primary btn-sm mt-4">
+                            Be the first to submit!
+                        </a>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Back Link -->
+            <div class="mt-6">
+                <a href="/success-stories/" class="btn btn-outline">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                    </svg>
+                    All Success Stories
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock content %}

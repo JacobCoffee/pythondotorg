@@ -4,50 +4,97 @@
 {% block content_attributes %}with-right-sidebar{% endblock %}
 
 {% block right_sidebar %}
-    <aside class="right-sidebar" role="secondary">
-        <div class="sidebar-widget subscribe-widget">
-            {% if calendar %}
-            <h2 class="widget-title">Python Event Subscriptions</h2>
-            <p>Subscribe to Python Event Calendars:</p>
-            <ul class="menu">
-                {% if calendar.embed %}<li><a href="{{ calendar.embed }}"><span aria-hidden="true" class="icon-embed"></span>Embeddable widget</a></li>{% endif %}
-                {% if calendar.rss %}<li><a href="{{ calendar.rss }}"><span aria-hidden="true" class="icon-feed"></span>Events via RSS</a></li>{% endif %}
-                {% if calendar.url %}<li><a href="{{ calendar.url }}"><span aria-hidden="true" class="icon-ical"></span>Events in iCal format</a></li>{% endif %}
-                {% if calendar.twitter %}<li><a href="{{ calendar.twitter }}"><span aria-hidden="true" class="icon-twitter"></span>Events on Twitter</a></li>{% endif %}
-            </ul>
-            {% endif %}
-            {% box 'events-subscriptions' %}
-	    </div>
+    <aside class="sticky top-24 space-y-6" role="secondary">
+        <!-- Event Subscriptions Widget -->
+        <div class="card bg-base-100 shadow-xl">
+            <div class="card-body">
+                {% if calendar %}
+                <h2 class="card-title text-python-blue mb-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+                    </svg>
+                    Python Event Subscriptions
+                </h2>
+                <p class="text-sm text-base-content/70 mb-4">Subscribe to Python Event Calendars:</p>
+                <ul class="space-y-2">
+                    {% if calendar.embed %}
+                    <li>
+                        <a href="{{ calendar.embed }}" class="btn btn-sm btn-outline w-full justify-start gap-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+                            </svg>
+                            Embeddable widget
+                        </a>
+                    </li>
+                    {% endif %}
+                    {% if calendar.rss %}
+                    <li>
+                        <a href="{{ calendar.rss }}" class="btn btn-sm btn-outline w-full justify-start gap-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 5c7.18 0 13 5.82 13 13M6 11a7 7 0 017 7m-6 0a1 1 0 11-2 0 1 1 0 012 0z" />
+                            </svg>
+                            Events via RSS
+                        </a>
+                    </li>
+                    {% endif %}
+                    {% if calendar.url %}
+                    <li>
+                        <a href="{{ calendar.url }}" class="btn btn-sm btn-outline w-full justify-start gap-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                            </svg>
+                            Events in iCal format
+                        </a>
+                    </li>
+                    {% endif %}
+                    {% if calendar.twitter %}
+                    <li>
+                        <a href="{{ calendar.twitter }}" class="btn btn-sm btn-outline w-full justify-start gap-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/>
+                            </svg>
+                            Events on Twitter
+                        </a>
+                    </li>
+                    {% endif %}
+                </ul>
+                {% endif %}
+                <div class="mt-4">
+                    {% box 'events-subscriptions' %}
+                </div>
+            </div>
+        </div>
 
+        <!-- Event Categories Widget -->
         {% if event_categories %}
-        <div class="sidebar-widget eventtypes-widget">
-            <h2 class="widget-title">Event Categories</h2>
-            <p class="give-me-more"><a href="#" title="More Event Categories">More</a></p>
-            <ul class="menu">
-                {% for category in event_categories %}
-                <li><a href="{{ category.get_absolute_url }}">{{ category.name }}</a></li>
-                {% endfor %}
-                <li><a class="readmore" href="{% url 'events:eventcategory_list' calendar_slug=view.kwargs.calendar_slug %}">More Types</a></li>
-            </ul>
+        <div class="card bg-base-100 shadow-xl">
+            <div class="card-body">
+                <div class="flex items-center justify-between mb-4">
+                    <h2 class="card-title text-python-blue">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
+                        </svg>
+                        Event Categories
+                    </h2>
+                    <a href="{% url 'events:eventcategory_list' calendar_slug=view.kwargs.calendar_slug %}" class="link link-primary text-xs">
+                        View All
+                    </a>
+                </div>
+                <ul class="space-y-2">
+                    {% for category in event_categories %}
+                    <li>
+                        <a href="{{ category.get_absolute_url }}" class="flex items-center justify-between p-2 rounded-lg hover:bg-base-200 transition-colors">
+                            <span class="text-sm">{{ category.name }}</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                            </svg>
+                        </a>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
         </div>
         {% endif %}
-
-        {% comment %}
-        Less useful to look at and use than I thought they might be.
-        Titles of locations are the whole address most times, and unless someone in the DB controlled the way they were written and presented, this might always be a mess
-        {% if event_locations %}
-        <div class="sidebar-widget authors-widget">
-            <h2 class="widget-title">Event Locations</h2>
-            <p class="give-me-more"><a href="#" title="More Event Locations">More</a></p>
-            <ul class="menu">
-                {% for location in event_locations %}
-                <li><a href="{{ location.get_absolute_url }}">{{ location.name }}</a></li>
-                {% endfor %}
-               <li><a class="readmore" href="{% url 'events:eventlocation_list' calendar_slug=view.kwargs.calendar_slug %}">More Locations</a></li>
-            </ul>
-        </div>
-        {% endif %}
-        {% endcomment %}
 
     </aside>
 {% endblock right_sidebar %}

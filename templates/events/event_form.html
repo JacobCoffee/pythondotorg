@@ -5,31 +5,104 @@
 
 {% block body_attributes %}class="python events event-form default-page"{% endblock %}
 
-{% block content %}
-    <article class="text">
-        <header class="article-header">
-            <h1 class="page-title">Submit an Event</h1>
-        </header>
-
-        <div class="user-feedback level-general">
-            <p>
-                For bulk submissions, please check the
-                <a href="https://wiki.python.org/moin/PythonEventsCalendar#Submitting_an_Event">Submitting an Event</a>
-                page on the Python wiki.
-            </p>
+{% block header_content %}
+<!-- Hero Section -->
+<div class="python-gradient py-12">
+    <div class="container mx-auto px-4">
+        <div class="max-w-3xl mx-auto text-center text-white">
+            <h1 class="text-3xl md:text-4xl font-bold mb-4">Submit an Event</h1>
+            <p class="text-white/90">Share your Python event with the community</p>
         </div>
+    </div>
+</div>
+{% endblock header_content %}
 
-        <p>
-            <strong>All fields are required.</strong>
-        </p>
+{% block content %}
+<div class="container mx-auto px-4 py-12">
+    <div class="max-w-2xl mx-auto">
+        <div class="card bg-base-100 shadow-xl">
+            <div class="card-body">
+                <!-- Info Alert -->
+                <div class="alert alert-info mb-6">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    <div>
+                        <p>For bulk submissions, please check the
+                            <a href="https://wiki.python.org/moin/PythonEventsCalendar#Submitting_an_Event" class="link link-primary font-medium">
+                                Submitting an Event
+                            </a> page on the Python wiki.
+                        </p>
+                    </div>
+                </div>
 
-        <form class="wide-form" action="{% url 'events:event_submit' %}" method="post">
-            {% csrf_token %}
-            {% if next %}<input type="hidden" name="next" value="{{ next }}" />{% endif %}
-            {{ form.as_p }}
-            <p>
-                <button type="submit" name="Submit">Submit</button>
-            </p>
-        </form>
-    </article>
+                <div class="divider"></div>
+
+                <p class="text-base-content/70 mb-6">
+                    <span class="badge badge-error badge-sm mr-1">Required</span>
+                    All fields are required.
+                </p>
+
+                <form action="{% url 'events:event_submit' %}" method="post" class="space-y-6">
+                    {% csrf_token %}
+                    {% if next %}<input type="hidden" name="next" value="{{ next }}" />{% endif %}
+
+                    {% for field in form %}
+                    <div class="form-control w-full">
+                        <label class="label" for="{{ field.id_for_label }}">
+                            <span class="label-text font-medium">{{ field.label }}</span>
+                            {% if field.field.required %}
+                            <span class="label-text-alt text-error">*</span>
+                            {% endif %}
+                        </label>
+
+                        {% if field.field.widget.input_type == 'textarea' or field.name == 'description' %}
+                        <textarea
+                            name="{{ field.name }}"
+                            id="{{ field.id_for_label }}"
+                            class="textarea textarea-bordered w-full h-32 {% if field.errors %}textarea-error{% endif %}"
+                            {% if field.field.required %}required{% endif %}
+                        >{{ field.value|default:'' }}</textarea>
+                        {% elif field.field.widget.input_type == 'select' %}
+                        {{ field }}
+                        {% else %}
+                        <input
+                            type="{{ field.field.widget.input_type|default:'text' }}"
+                            name="{{ field.name }}"
+                            id="{{ field.id_for_label }}"
+                            value="{{ field.value|default:'' }}"
+                            class="input input-bordered w-full {% if field.errors %}input-error{% endif %}"
+                            {% if field.field.required %}required{% endif %}
+                        />
+                        {% endif %}
+
+                        {% if field.help_text %}
+                        <label class="label">
+                            <span class="label-text-alt text-base-content/60">{{ field.help_text }}</span>
+                        </label>
+                        {% endif %}
+
+                        {% if field.errors %}
+                        <label class="label">
+                            <span class="label-text-alt text-error">{{ field.errors|join:", " }}</span>
+                        </label>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+
+                    <div class="divider"></div>
+
+                    <div class="form-control">
+                        <button type="submit" class="btn btn-primary btn-lg w-full">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+                            </svg>
+                            Submit Event
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock content %}

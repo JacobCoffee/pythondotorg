@@ -2,15 +2,60 @@
 
 {% block page_title %}Event Submitted | {{ SITE_INFO.site_name }}{% endblock %}
 
+{% block header_content %}
+<!-- Hero Section -->
+<div class="python-gradient py-12">
+    <div class="container mx-auto px-4">
+        <div class="max-w-3xl mx-auto text-center text-white">
+            <div class="mb-4">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 mx-auto text-python-yellow" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+            </div>
+            <h1 class="text-3xl md:text-4xl font-bold mb-4">Thank You!</h1>
+            <p class="text-white/90">Your event has been submitted successfully</p>
+        </div>
+    </div>
+</div>
+{% endblock header_content %}
+
 {% block content %}
-<div class="row" xmlns="http://www.w3.org/1999/html">
-    <h1>Thank you for filing a new event!</h1>
-    <div class="user-feedback level-success">
-        <p>
-            <strong>Your event has been submitted!</strong> This has sent
-            an email to the maintainers of the Python Events calendar.
-            Please check your email and await for updates. Thanks a lot!
-        </p>
+<div class="container mx-auto px-4 py-12">
+    <div class="max-w-2xl mx-auto">
+        <div class="card bg-base-100 shadow-xl">
+            <div class="card-body text-center">
+                <div class="alert alert-success mb-6">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <div class="text-left">
+                        <h3 class="font-bold">Your event has been submitted!</h3>
+                        <p class="text-sm">This has sent an email to the maintainers of the Python Events calendar.</p>
+                    </div>
+                </div>
+
+                <p class="text-base-content/70 mb-6">
+                    Please check your email and await updates. Thanks for contributing to the Python community!
+                </p>
+
+                <div class="divider">What's Next?</div>
+
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <a href="/events/" class="btn btn-primary">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        </svg>
+                        View All Events
+                    </a>
+                    <a href="{% url 'events:event_submit' %}" class="btn btn-outline btn-primary">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                        </svg>
+                        Submit Another Event
+                    </a>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 {% endblock content %}

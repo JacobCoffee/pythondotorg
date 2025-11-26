@@ -6,22 +6,77 @@
 
 {% block body_attributes %}class="python events list-calendars default-page"{% endblock %}
 
-{% block content_attributes %}with-right-sidebar{% endblock %}
+{% block header_content %}
+<!-- Hero Section -->
+<div class="python-gradient py-12">
+    <div class="container mx-auto px-4">
+        <div class="max-w-3xl mx-auto text-center text-white">
+            <h1 class="text-3xl md:text-4xl font-bold mb-4">Python Event Calendars</h1>
+            <p class="text-white/90">Choose a calendar to view upcoming Python events</p>
+        </div>
+    </div>
+</div>
+{% endblock header_content %}
 
 {% block content %}
-    <article class="text">
-        
-        <header class="article-header">
-            <h1 class="page-title">Featured Python Calendars</h1>
-        </header>
-        
-        <p>Choose a calendar to view events.</p>
-        
-        <ul class="list">
-    {% for object in object_list %}
-            <li><a href="{{ object.get_absolute_url }}">{{ object.name }}</a></li>
-    {% endfor %}
-        </ul>
-        
-    </article>
+<div class="container mx-auto px-4 py-12">
+    <div class="max-w-4xl mx-auto">
+        <div class="card bg-base-100 shadow-xl">
+            <div class="card-body">
+                <h2 class="card-title text-2xl text-python-blue mb-6">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                    </svg>
+                    Featured Python Calendars
+                </h2>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {% for object in object_list %}
+                    <a href="{{ object.get_absolute_url }}" class="card bg-base-200/50 hover:bg-base-200 hover:shadow-lg transition-all group">
+                        <div class="card-body p-6">
+                            <div class="flex items-center gap-4">
+                                <div class="bg-python-blue/10 p-3 rounded-lg group-hover:bg-python-blue/20 transition-colors">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-python-blue" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h3 class="font-semibold text-lg group-hover:text-python-blue transition-colors">{{ object.name }}</h3>
+                                    <p class="text-sm text-base-content/60">View events</p>
+                                </div>
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-auto text-base-content/40 group-hover:text-python-blue transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                                </svg>
+                            </div>
+                        </div>
+                    </a>
+                    {% empty %}
+                    <div class="col-span-2 text-center py-8 text-base-content/60">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 mx-auto mb-4 opacity-50" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        </svg>
+                        <p>No calendars available at this time.</p>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <!-- CTA Section -->
+        <div class="mt-8 text-center">
+            <div class="card bg-python-blue/5 border border-python-blue/20">
+                <div class="card-body">
+                    <h3 class="font-semibold text-lg mb-2">Have a Python event?</h3>
+                    <p class="text-base-content/70 mb-4">Share your event with the Python community!</p>
+                    <a href="{% url 'events:event_submit' %}" class="btn btn-primary">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                        </svg>
+                        Submit an Event
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock content %}
